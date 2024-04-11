@@ -1,1 +1,0 @@
-# Market Adapters source

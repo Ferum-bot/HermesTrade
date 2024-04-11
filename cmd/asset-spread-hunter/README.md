@@ -1,1 +1,0 @@
-# Asset spread hunter Application
