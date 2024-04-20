@@ -4,6 +4,8 @@ type AssetUniversalIdentifier int64
 type AssetExternalIdentifier int64
 type AssetSourceIdentifier int64
 
+type AssetPairIdentifier string
+
 type Asset struct {
 	UniversalIdentifier AssetUniversalIdentifier
 	ExternalIdentifier  AssetExternalIdentifier
@@ -11,6 +13,8 @@ type Asset struct {
 }
 
 type AssetCurrencyPair struct {
+	Identifier AssetPairIdentifier
+
 	BaseAsset   Asset
 	QuotedAsset Asset
 
