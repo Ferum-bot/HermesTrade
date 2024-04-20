@@ -1,19 +1,21 @@
 package default_sync_spread_hunter
 
 import (
+	"context"
 	"errors"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter/model"
 )
 
-type service struct {
+type defaultSpreadHunter struct {
 }
 
 func NewDefaultSyncSpreadHunter() spread_hunter.SyncSpreadHunter {
-	return &service{}
+	return &defaultSpreadHunter{}
 }
 
-func (s service) SearchSpread(
+func (spreadHunter defaultSpreadHunter) SearchSpread(
+	ctx context.Context,
 	assetPairs []model.AssetCurrencyPair,
 	searchSettings model.SpreadSearchSettings,
 ) ([]model.Spread, error) {
