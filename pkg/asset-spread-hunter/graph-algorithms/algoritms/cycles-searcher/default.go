@@ -3,8 +3,8 @@ package cycles_searcher
 import (
 	"context"
 	"errors"
-	searchgraphalgoritms "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/search-graph-algoritms"
-	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/search-graph-algoritms/model"
+	searchgraphalgoritms "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms"
+	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
 )
 
 type defaultAlgorithm struct {
