@@ -18,36 +18,31 @@ func NewDefaultDFS() graph_algorithms.DFS {
 	}
 }
 
-func (d *defaultDFS) Run(
+func (algorithm *defaultDFS) Run(
 	ctx context.Context,
+	startVertex model.GraphVertex,
 	graph model.Graph,
 	action graph_algorithms.OnVertexManagedAction,
 ) error {
-	rootVertex := model.GraphVertex{}
-	if len(graph.Vertexes) > 0 {
-		rootVertex = graph.Vertexes[0]
-	} else {
-		return nil
-	}
 
-	d.context.action = action
-	d.context.graph = graph
+	algorithm.context.action = action
+	algorithm.context.graph = graph
 
-	err := d.dfs(ctx, rootVertex, nil)
+	err := algorithm.dfs(ctx, startVertex, nil)
 	if err != nil {
-		return errors.Wrap(err, "d.dfs()")
+		return errors.Wrap(err, "algorithm.dfs()")
 	}
 
 	return nil
 }
 
-func (d *defaultDFS) dfs(
+func (algorithm *defaultDFS) dfs(
 	ctx context.Context,
 	currentVertex model.GraphVertex,
 	sourceEdge *model.Edge,
 ) error {
-	manageType := d.context.action.OnVertexManaged(
-		ctx, currentVertex, sourceEdge, d.context.graph,
+	manageType := algorithm.context.action.BeforeVertexManaged(
+		ctx, currentVertex, sourceEdge, algorithm.context.graph,
 	)
 
 	if manageType == graph_algorithms.NotVisitChildrenManageType {
@@ -65,16 +60,20 @@ func (d *defaultDFS) dfs(
 			continue
 		}
 
-		err := d.dfs(ctx, targetVertex, sourceEdge)
+		err := algorithm.dfs(ctx, targetVertex, sourceEdge)
 		if err != nil {
 			errMessage := fmt.Sprintf(
-				"recursive d.dfs() on edge: %d --> %d",
+				"recursive algorithm.dfs() on edge: %algorithm --> %algorithm",
 				currentVertex.Identifier,
 				targetVertex.Identifier,
 			)
 			return errors.Wrap(err, errMessage)
 		}
 	}
+
+	algorithm.context.action.AfterVertexManaged(
+		ctx, currentVertex, sourceEdge, algorithm.context.graph,
+	)
 
 	return nil
 }

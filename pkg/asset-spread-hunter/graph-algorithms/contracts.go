@@ -23,6 +23,7 @@ type BFS interface {
 type DFS interface {
 	Run(
 		ctx context.Context,
+		startVertex model.GraphVertex,
 		graph model.Graph,
 		action OnVertexManagedAction,
 	) error

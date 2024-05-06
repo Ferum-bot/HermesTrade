@@ -5,6 +5,5 @@ type Graph struct {
 }
 
 type GraphCycle struct {
-	Edges       []Edge
-	CycleLength int64
+	Edges []Edge
 }

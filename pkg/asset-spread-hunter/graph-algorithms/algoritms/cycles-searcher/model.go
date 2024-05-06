@@ -1,16 +1,21 @@
 package cycles_searcher
 
-import "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
+import (
+	collection_algorithms "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/collection-algorithms"
+	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
+)
 
 type vertexStatus int32
 
 const (
-	StatusNotVisited vertexStatus = iota
-	StatusInProgress
-	StatusHandled
+	statusNotVisited vertexStatus = iota
+	statusInProgress
+	statusHandled
 )
 
 type searchContext struct {
-	vertexStatuses map[model.GraphVertexIdentifier]vertexStatus
-	foundCycles    []model.GraphCycle
+	graph            model.Graph
+	vertexStatuses   map[model.GraphVertexIdentifier]vertexStatus
+	foundCycles      []model.GraphCycle
+	currentEdgeChain collection_algorithms.CopyableStack[model.Edge]
 }

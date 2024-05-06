@@ -21,10 +21,17 @@ type OnVertexAction interface {
 }
 
 type OnVertexManagedAction interface {
-	OnVertexManaged(
+	BeforeVertexManaged(
 		ctx context.Context,
 		targetVertex model.GraphVertex,
 		edge *model.Edge,
 		graph model.Graph,
 	) VertexManageType
+
+	AfterVertexManaged(
+		ctx context.Context,
+		targetVertex model.GraphVertex,
+		edge *model.Edge,
+		graph model.Graph,
+	)
 }

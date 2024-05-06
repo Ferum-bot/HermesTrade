@@ -18,12 +18,13 @@ func NewDefaultBFS() graphalgorithms.BFS {
 	}
 }
 
-func (d *defaultBFS) Run(
+func (algorithm *defaultBFS) Run(
 	ctx context.Context,
 	graph model.Graph,
 	action graphalgorithms.OnVertexAction,
 ) error {
-	d.initContext(graph)
+	algorithm.initContext(graph)
+	defer algorithm.clearContext()
 
 	currentVertexes := queue.NewDefaultQueue[model.GraphVertex]()
 	if len(graph.Vertexes) > 0 {
@@ -36,36 +37,35 @@ func (d *defaultBFS) Run(
 			return errors.Wrap(err, "currentVertexes.Pop()")
 		}
 
-		d.markVertexIsVisited(vertex.Identifier)
+		algorithm.markVertexIsVisited(vertex.Identifier)
 		action.OnVertex(ctx, *vertex, graph)
 
 		for _, edge := range vertex.Edges {
 			targetVertex := edge.TargetVertex
-			if targetVertex != nil && !d.isVertexVisited(targetVertex.Identifier) {
+			if targetVertex != nil && !algorithm.isVertexVisited(targetVertex.Identifier) {
 				currentVertexes.Push(*targetVertex)
 			}
 		}
 	}
 
-	d.clearContext()
 	return nil
 }
 
-func (d *defaultBFS) initContext(graph model.Graph) {
-	d.context.visitedVertexes = make(map[model.GraphVertexIdentifier]bool, len(graph.Vertexes))
+func (algorithm *defaultBFS) initContext(graph model.Graph) {
+	algorithm.context.visitedVertexes = make(map[model.GraphVertexIdentifier]bool, len(graph.Vertexes))
 	for _, vertex := range graph.Vertexes {
-		d.context.visitedVertexes[vertex.Identifier] = false
+		algorithm.context.visitedVertexes[vertex.Identifier] = false
 	}
 }
 
-func (d *defaultBFS) isVertexVisited(vertex model.GraphVertexIdentifier) bool {
-	return d.context.visitedVertexes[vertex]
+func (algorithm *defaultBFS) isVertexVisited(vertex model.GraphVertexIdentifier) bool {
+	return algorithm.context.visitedVertexes[vertex]
 }
 
-func (d *defaultBFS) markVertexIsVisited(vertex model.GraphVertexIdentifier) {
-	d.context.visitedVertexes[vertex] = true
+func (algorithm *defaultBFS) markVertexIsVisited(vertex model.GraphVertexIdentifier) {
+	algorithm.context.visitedVertexes[vertex] = true
 }
 
-func (d *defaultBFS) clearContext() {
-	d.context = &bfsContext{}
+func (algorithm *defaultBFS) clearContext() {
+	algorithm.context = &bfsContext{}
 }
