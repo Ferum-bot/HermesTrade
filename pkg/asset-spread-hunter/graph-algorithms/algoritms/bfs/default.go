@@ -26,6 +26,10 @@ func (d *defaultBFS) Run(
 	d.initContext(graph)
 
 	currentVertexes := queue.NewDefaultQueue[model.GraphVertex]()
+	if len(graph.Vertexes) > 0 {
+		currentVertexes.Push(graph.Vertexes[0])
+	}
+
 	for !currentVertexes.IsEmpty() {
 		vertex, err := currentVertexes.Pop()
 		if err != nil {
@@ -48,8 +52,6 @@ func (d *defaultBFS) Run(
 }
 
 func (d *defaultBFS) initContext(graph model.Graph) {
-	d.context.vertexesQueue = make([]model.GraphVertex, 0, len(graph.Vertexes))
-
 	d.context.visitedVertexes = make(map[model.GraphVertexIdentifier]bool, len(graph.Vertexes))
 	for _, vertex := range graph.Vertexes {
 		d.context.visitedVertexes[vertex.Identifier] = false

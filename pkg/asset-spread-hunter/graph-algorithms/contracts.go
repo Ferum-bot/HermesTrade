@@ -19,3 +19,11 @@ type BFS interface {
 		action OnVertexAction,
 	) error
 }
+
+type DFS interface {
+	Run(
+		ctx context.Context,
+		graph model.Graph,
+		action OnVertexManagedAction,
+	) error
+}

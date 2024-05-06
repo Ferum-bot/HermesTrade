@@ -4,5 +4,4 @@ import "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithm
 
 type bfsContext struct {
 	visitedVertexes map[model.GraphVertexIdentifier]bool
-	vertexesQueue   []model.GraphVertex
 }
