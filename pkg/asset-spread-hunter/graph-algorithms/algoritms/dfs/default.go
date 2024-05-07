@@ -24,7 +24,6 @@ func (algorithm *defaultDFS) Run(
 	graph model.Graph,
 	action graph_algorithms.OnVertexManagedAction,
 ) error {
-
 	algorithm.context.action = action
 	algorithm.context.graph = graph
 
@@ -60,7 +59,13 @@ func (algorithm *defaultDFS) dfs(
 			continue
 		}
 
-		err := algorithm.dfs(ctx, targetVertex, sourceEdge)
+		currentEdge := model.Edge{
+			SourceVertex: &currentVertex,
+			TargetVertex: edge.TargetVertex,
+			Weight:       edge.Weight,
+		}
+
+		err := algorithm.dfs(ctx, targetVertex, &currentEdge)
 		if err != nil {
 			errMessage := fmt.Sprintf(
 				"recursive algorithm.dfs() on edge: %algorithm --> %algorithm",

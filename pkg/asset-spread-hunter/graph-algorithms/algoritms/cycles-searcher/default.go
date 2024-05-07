@@ -131,6 +131,7 @@ func (algorithm *defaultAlgorithm) initContext(graph model.Graph) {
 	algorithm.context.foundCycles = make([]model.GraphCycle, 0)
 	algorithm.context.currentEdgeChain = stack.NewDefaultStack[model.Edge]()
 
+	algorithm.context.vertexStatuses = make(map[model.GraphVertexIdentifier]vertexStatus, len(graph.Vertexes))
 	for _, vertex := range graph.Vertexes {
 		algorithm.markVertexNotVisited(vertex)
 	}
