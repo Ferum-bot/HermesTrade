@@ -233,6 +233,56 @@ func buildMediumGraphWithThreeCycles() model.Graph {
 	return graph
 }
 
+func buildBigForestGraphWithManyCycles() model.Graph {
+	const forestCount = 4
+	const vertexCountInOneForest = 11
+	const vertexCount = vertexCountInOneForest * forestCount
+
+	identifierCounter := int64(0)
+	allVertexes := make([]*model.GraphVertex, 0, vertexCount)
+
+	for i := 0; i < vertexCount; i++ {
+		vertex := buildEmptyVertex(identifierCounter)
+		identifierCounter++
+
+		allVertexes = append(allVertexes, vertex)
+	}
+
+	var mediumGraphBuilder func(identifierOffset int64)
+	mediumGraphBuilder = func(identifierOffset int64) {
+		buildEdge(allVertexes[identifierOffset], allVertexes[identifierOffset+1])
+
+		buildEdge(allVertexes[identifierOffset+1], allVertexes[identifierOffset+2])
+		buildEdge(allVertexes[identifierOffset+2], allVertexes[identifierOffset+3])
+		buildEdge(allVertexes[identifierOffset+3], allVertexes[identifierOffset+4])
+		buildEdge(allVertexes[identifierOffset+4], allVertexes[identifierOffset+1])
+
+		buildEdge(allVertexes[identifierOffset+3], allVertexes[identifierOffset+9])
+		buildEdge(allVertexes[identifierOffset+9], allVertexes[identifierOffset+10])
+
+		buildEdge(allVertexes[identifierOffset+4], allVertexes[identifierOffset+8])
+		buildEdge(allVertexes[identifierOffset+8], allVertexes[identifierOffset+7])
+		buildEdge(allVertexes[identifierOffset+7], allVertexes[identifierOffset+5])
+		buildEdge(allVertexes[identifierOffset+5], allVertexes[identifierOffset+1])
+
+		buildEdge(allVertexes[identifierOffset+5], allVertexes[identifierOffset+6])
+		buildEdge(allVertexes[identifierOffset+10], allVertexes[identifierOffset+8])
+	}
+
+	identifierCounter = 0
+	for i := 0; i < forestCount; i++ {
+		mediumGraphBuilder(identifierCounter)
+		identifierCounter += vertexCountInOneForest
+	}
+
+	graph := model.Graph{Vertexes: make([]model.GraphVertex, 0, len(allVertexes))}
+	for _, vertex := range allVertexes {
+		graph.Vertexes = append(graph.Vertexes, *vertex)
+	}
+
+	return graph
+}
+
 func buildEmptyVertex(identifier int64) *model.GraphVertex {
 	return &model.GraphVertex{
 		Identifier: model.GraphVertexIdentifier(identifier),

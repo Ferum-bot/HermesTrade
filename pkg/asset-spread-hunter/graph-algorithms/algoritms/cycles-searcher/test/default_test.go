@@ -4,6 +4,7 @@ import (
 	"context"
 	cycles_searcher "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/algoritms/cycles-searcher"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -437,6 +438,19 @@ func TestDefaultAlgorithm_SearchAllCycles(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestDefaultAlgorithm_SearchAllCycles_BigForestGraphWithManyCycles(t *testing.T) {
+	inputGraph := buildBigForestGraphWithManyCycles()
+	expectedGraphCount := 72
+
+	ctx := context.Background()
+	cyclesSearcher := cycles_searcher.NewDefaultAlgorithm()
+
+	actualCycles, actualErr := cyclesSearcher.SearchAllCycles(ctx, inputGraph)
+
+	assert.NoError(t, actualErr)
+	assert.Equal(t, expectedGraphCount, len(actualCycles))
 }
 
 func assertContainsCycle(t *testing.T, cycles []model.GraphCycle, targetCycle model.GraphCycle) {
