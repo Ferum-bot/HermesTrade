@@ -40,11 +40,10 @@ func (algorithm *defaultDFS) dfs(
 	currentVertex model.GraphVertex,
 	sourceEdge *model.Edge,
 ) error {
-	manageType := algorithm.context.action.BeforeVertexManaged(
-		ctx, currentVertex, sourceEdge, algorithm.context.graph,
-	)
+	manageType := algorithm.beforeVertexManager(ctx, currentVertex, sourceEdge)
 
 	if manageType == graph_algorithms.NotVisitChildrenManageType {
+		algorithm.onVertexExit(ctx, currentVertex, sourceEdge)
 		return nil
 	}
 
@@ -76,9 +75,37 @@ func (algorithm *defaultDFS) dfs(
 		}
 	}
 
+	algorithm.afterVertexManaged(ctx, currentVertex, sourceEdge)
+
+	return nil
+}
+
+func (algorithm *defaultDFS) beforeVertexManager(
+	ctx context.Context,
+	currentVertex model.GraphVertex,
+	sourceEdge *model.Edge,
+) graph_algorithms.VertexManageType {
+	return algorithm.context.action.BeforeVertexManaged(
+		ctx, currentVertex, sourceEdge, algorithm.context.graph,
+	)
+}
+
+func (algorithm *defaultDFS) afterVertexManaged(
+	ctx context.Context,
+	currentVertex model.GraphVertex,
+	sourceEdge *model.Edge,
+) {
 	algorithm.context.action.AfterVertexManaged(
 		ctx, currentVertex, sourceEdge, algorithm.context.graph,
 	)
+}
 
-	return nil
+func (algorithm *defaultDFS) onVertexExit(
+	ctx context.Context,
+	currentVertex model.GraphVertex,
+	sourceEdge *model.Edge,
+) {
+	algorithm.context.action.OnVertexExit(
+		ctx, currentVertex, sourceEdge, algorithm.context.graph,
+	)
 }

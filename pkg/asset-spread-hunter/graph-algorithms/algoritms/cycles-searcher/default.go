@@ -8,6 +8,7 @@ import (
 	dfs2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/algoritms/dfs"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
+	"slices"
 )
 
 type defaultAlgorithm struct {
@@ -54,13 +55,13 @@ func (algorithm *defaultAlgorithm) searchCycles(
 }
 
 func (algorithm *defaultAlgorithm) BeforeVertexManaged(
-	ctx context.Context,
+	_ context.Context,
 	targetVertex model.GraphVertex,
 	edge *model.Edge,
-	graph model.Graph,
+	_ model.Graph,
 ) graphalgorithms.VertexManageType {
 	if edge != nil {
-		algorithm.context.currentEdgeChain.Push(*edge)
+		algorithm.pushEdge(*edge)
 	}
 
 	if algorithm.isVertexInProgress(targetVertex) {
@@ -73,16 +74,22 @@ func (algorithm *defaultAlgorithm) BeforeVertexManaged(
 	return graphalgorithms.VisitChildrenManageType
 }
 
-func (algorithm *defaultAlgorithm) AfterVertexManaged(
-	ctx context.Context,
-	targetVertex model.GraphVertex,
-	edge *model.Edge,
-	graph model.Graph,
+func (algorithm *defaultAlgorithm) OnVertexExit(
+	_ context.Context,
+	_ model.GraphVertex,
+	_ *model.Edge,
+	_ model.Graph,
 ) {
-	if !algorithm.context.currentEdgeChain.IsEmpty() {
-		_, _ = algorithm.context.currentEdgeChain.Pop()
-	}
+	algorithm.popEdge()
+}
 
+func (algorithm *defaultAlgorithm) AfterVertexManaged(
+	_ context.Context,
+	targetVertex model.GraphVertex,
+	_ *model.Edge,
+	_ model.Graph,
+) {
+	algorithm.popEdge()
 	algorithm.markVertexHandled(targetVertex)
 }
 
@@ -106,6 +113,16 @@ func (algorithm *defaultAlgorithm) markVertexHandled(vertex model.GraphVertex) {
 	algorithm.context.vertexStatuses[vertex.Identifier] = statusHandled
 }
 
+func (algorithm *defaultAlgorithm) pushEdge(edge model.Edge) {
+	algorithm.context.currentEdgeChain.Push(edge)
+}
+
+func (algorithm *defaultAlgorithm) popEdge() {
+	if !algorithm.context.currentEdgeChain.IsEmpty() {
+		_, _ = algorithm.context.currentEdgeChain.Pop()
+	}
+}
+
 func (algorithm *defaultAlgorithm) addCycle(targetVertex model.GraphVertex) {
 	allCurrentEdges := algorithm.context.currentEdgeChain.MakeCopy().(collection_algorithms.CopyableStack[model.Edge])
 
@@ -120,6 +137,7 @@ func (algorithm *defaultAlgorithm) addCycle(targetVertex model.GraphVertex) {
 		}
 	}
 
+	slices.Reverse(currentCycleEdges)
 	cycle := model.GraphCycle{
 		Edges: currentCycleEdges,
 	}

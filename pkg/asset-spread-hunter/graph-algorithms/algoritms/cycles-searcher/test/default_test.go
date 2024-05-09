@@ -53,10 +53,369 @@ func TestDefaultAlgorithm_SearchAllCycles(t *testing.T) {
 			inputGraph:     buildGraphWithoutCycles(),
 			expectedCycles: []model.GraphCycle{},
 		},
-		"forest_graph_without_cycles":       {},
-		"simple_graph_with_one_cycle":       {},
-		"forest_graph_with_two_cycles":      {},
-		"medium_graph_with_three_cycles":    {},
+		"forest_graph_without_cycles": {
+			inputGraph:     buildForestGraphWithoutCycles(),
+			expectedCycles: []model.GraphCycle{},
+		},
+		"simple_graph_with_one_cycle": {
+			inputGraph: buildSimpleGraphWithOneCycle(),
+			expectedCycles: []model.GraphCycle{
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(0),
+							TargetVertex: buildEmptyVertex(1),
+						},
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(0),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(0),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(1),
+						},
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(0),
+						},
+					},
+				},
+			},
+		},
+		"forest_graph_with_two_cycles": {
+			inputGraph: buildForestGraphWithTwoCycles(),
+			expectedCycles: []model.GraphCycle{
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(6),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(9),
+						},
+						{
+							SourceVertex: buildEmptyVertex(9),
+							TargetVertex: buildEmptyVertex(10),
+						},
+						{
+							SourceVertex: buildEmptyVertex(10),
+							TargetVertex: buildEmptyVertex(6),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(6),
+							TargetVertex: buildEmptyVertex(10),
+						},
+						{
+							SourceVertex: buildEmptyVertex(10),
+							TargetVertex: buildEmptyVertex(9),
+						},
+						{
+							SourceVertex: buildEmptyVertex(9),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(6),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(11),
+							TargetVertex: buildEmptyVertex(12),
+						},
+						{
+							SourceVertex: buildEmptyVertex(12),
+							TargetVertex: buildEmptyVertex(13),
+						},
+						{
+							SourceVertex: buildEmptyVertex(13),
+							TargetVertex: buildEmptyVertex(14),
+						},
+						{
+							SourceVertex: buildEmptyVertex(14),
+							TargetVertex: buildEmptyVertex(15),
+						},
+						{
+							SourceVertex: buildEmptyVertex(15),
+							TargetVertex: buildEmptyVertex(11),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(11),
+							TargetVertex: buildEmptyVertex(15),
+						},
+						{
+							SourceVertex: buildEmptyVertex(15),
+							TargetVertex: buildEmptyVertex(14),
+						},
+						{
+							SourceVertex: buildEmptyVertex(14),
+							TargetVertex: buildEmptyVertex(13),
+						},
+						{
+							SourceVertex: buildEmptyVertex(13),
+							TargetVertex: buildEmptyVertex(12),
+						},
+						{
+							SourceVertex: buildEmptyVertex(12),
+							TargetVertex: buildEmptyVertex(11),
+						},
+					},
+				},
+			},
+		},
+		"medium_graph_with_three_cycles": {
+			inputGraph: buildMediumGraphWithThreeCycles(),
+			expectedCycles: []model.GraphCycle{
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(3),
+						},
+						{
+							SourceVertex: buildEmptyVertex(3),
+							TargetVertex: buildEmptyVertex(2),
+						},
+						{
+							SourceVertex: buildEmptyVertex(2),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: buildEmptyVertex(1),
+							TargetVertex: buildEmptyVertex(5),
+						},
+						{
+							SourceVertex: buildEmptyVertex(5),
+							TargetVertex: buildEmptyVertex(7),
+						},
+						{
+							SourceVertex: buildEmptyVertex(7),
+							TargetVertex: buildEmptyVertex(8),
+						},
+						{
+							SourceVertex: buildEmptyVertex(8),
+							TargetVertex: buildEmptyVertex(4),
+						},
+						{
+							SourceVertex: buildEmptyVertex(4),
+							TargetVertex: buildEmptyVertex(1),
+						},
+					},
+				},
+			},
+		},
 		"big_forest_graph_with_many_cycles": {},
 	}
 
@@ -107,10 +466,8 @@ func cyclesIsEqual(firstCycle model.GraphCycle, secondCycle model.GraphCycle) bo
 func cycleContainsEdge(cycle model.GraphCycle, targetEdge model.Edge) bool {
 	for _, edge := range cycle.Edges {
 
-		if edge.SourceVertex == targetEdge.SourceVertex &&
-			edge.TargetVertex == targetEdge.TargetVertex &&
-			edge.Weight == targetEdge.Weight {
-
+		if edge.SourceVertex.Identifier == targetEdge.SourceVertex.Identifier &&
+			edge.TargetVertex.Identifier == targetEdge.TargetVertex.Identifier {
 			return true
 		}
 	}

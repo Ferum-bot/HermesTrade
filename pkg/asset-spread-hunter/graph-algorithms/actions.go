@@ -28,6 +28,13 @@ type OnVertexManagedAction interface {
 		graph model.Graph,
 	) VertexManageType
 
+	OnVertexExit(
+		ctx context.Context,
+		targetVertex model.GraphVertex,
+		edge *model.Edge,
+		graph model.Graph,
+	)
+
 	AfterVertexManaged(
 		ctx context.Context,
 		targetVertex model.GraphVertex,
