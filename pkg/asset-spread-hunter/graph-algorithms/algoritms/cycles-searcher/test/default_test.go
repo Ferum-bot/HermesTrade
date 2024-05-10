@@ -4,6 +4,7 @@ import (
 	"context"
 	cycles_searcher "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/algoritms/cycles-searcher"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
+	graph_builders "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-builders"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -64,48 +65,48 @@ func TestDefaultAlgorithm_SearchAllCycles(t *testing.T) {
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(0),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(0),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(2),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(3),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(0),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(0),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(0),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(0),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(3),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(2),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(0),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(0),
 						},
 					},
 				},
@@ -117,144 +118,144 @@ func TestDefaultAlgorithm_SearchAllCycles(t *testing.T) {
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(2),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(3),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(5),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
 						},
 						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(1),
-						},
-					},
-				},
-				{
-					Edges: []model.Edge{
-						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(5),
-						},
-						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(4),
-						},
-						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(3),
-						},
-						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(2),
-						},
-						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(6),
-							TargetVertex: buildEmptyVertex(7),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
 						},
 						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(8),
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(9),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(9),
-							TargetVertex: buildEmptyVertex(10),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(10),
-							TargetVertex: buildEmptyVertex(6),
-						},
-					},
-				},
-				{
-					Edges: []model.Edge{
-						{
-							SourceVertex: buildEmptyVertex(6),
-							TargetVertex: buildEmptyVertex(10),
-						},
-						{
-							SourceVertex: buildEmptyVertex(10),
-							TargetVertex: buildEmptyVertex(9),
-						},
-						{
-							SourceVertex: buildEmptyVertex(9),
-							TargetVertex: buildEmptyVertex(8),
-						},
-						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(7),
-						},
-						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(6),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(11),
-							TargetVertex: buildEmptyVertex(12),
+							SourceVertex: graph_builders.BuildEmptyVertex(6),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
 						},
 						{
-							SourceVertex: buildEmptyVertex(12),
-							TargetVertex: buildEmptyVertex(13),
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
 						},
 						{
-							SourceVertex: buildEmptyVertex(13),
-							TargetVertex: buildEmptyVertex(14),
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(9),
 						},
 						{
-							SourceVertex: buildEmptyVertex(14),
-							TargetVertex: buildEmptyVertex(15),
+							SourceVertex: graph_builders.BuildEmptyVertex(9),
+							TargetVertex: graph_builders.BuildEmptyVertex(10),
 						},
 						{
-							SourceVertex: buildEmptyVertex(15),
-							TargetVertex: buildEmptyVertex(11),
+							SourceVertex: graph_builders.BuildEmptyVertex(10),
+							TargetVertex: graph_builders.BuildEmptyVertex(6),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(11),
-							TargetVertex: buildEmptyVertex(15),
+							SourceVertex: graph_builders.BuildEmptyVertex(6),
+							TargetVertex: graph_builders.BuildEmptyVertex(10),
 						},
 						{
-							SourceVertex: buildEmptyVertex(15),
-							TargetVertex: buildEmptyVertex(14),
+							SourceVertex: graph_builders.BuildEmptyVertex(10),
+							TargetVertex: graph_builders.BuildEmptyVertex(9),
 						},
 						{
-							SourceVertex: buildEmptyVertex(14),
-							TargetVertex: buildEmptyVertex(13),
+							SourceVertex: graph_builders.BuildEmptyVertex(9),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
 						},
 						{
-							SourceVertex: buildEmptyVertex(13),
-							TargetVertex: buildEmptyVertex(12),
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
 						},
 						{
-							SourceVertex: buildEmptyVertex(12),
-							TargetVertex: buildEmptyVertex(11),
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(6),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(11),
+							TargetVertex: graph_builders.BuildEmptyVertex(12),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(12),
+							TargetVertex: graph_builders.BuildEmptyVertex(13),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(13),
+							TargetVertex: graph_builders.BuildEmptyVertex(14),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(14),
+							TargetVertex: graph_builders.BuildEmptyVertex(15),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(15),
+							TargetVertex: graph_builders.BuildEmptyVertex(11),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(11),
+							TargetVertex: graph_builders.BuildEmptyVertex(15),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(15),
+							TargetVertex: graph_builders.BuildEmptyVertex(14),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(14),
+							TargetVertex: graph_builders.BuildEmptyVertex(13),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(13),
+							TargetVertex: graph_builders.BuildEmptyVertex(12),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(12),
+							TargetVertex: graph_builders.BuildEmptyVertex(11),
 						},
 					},
 				},
@@ -266,152 +267,152 @@ func TestDefaultAlgorithm_SearchAllCycles(t *testing.T) {
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(2),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(3),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(1),
-						},
-					},
-				},
-				{
-					Edges: []model.Edge{
-						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(2),
-						},
-						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(3),
-						},
-						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(4),
-						},
-						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(8),
-						},
-						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(7),
-						},
-						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(5),
-						},
-						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(3),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(2),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(1),
-						},
-					},
-				},
-				{
-					Edges: []model.Edge{
-						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(8),
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
 						},
 						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(7),
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
 						},
 						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(5),
-						},
-						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(5),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(7),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
 						},
 						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(8),
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
 						},
 						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(4),
-						},
-						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(3),
-						},
-						{
-							SourceVertex: buildEmptyVertex(3),
-							TargetVertex: buildEmptyVertex(2),
-						},
-						{
-							SourceVertex: buildEmptyVertex(2),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},
 				{
 					Edges: []model.Edge{
 						{
-							SourceVertex: buildEmptyVertex(1),
-							TargetVertex: buildEmptyVertex(5),
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
 						},
 						{
-							SourceVertex: buildEmptyVertex(5),
-							TargetVertex: buildEmptyVertex(7),
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
 						},
 						{
-							SourceVertex: buildEmptyVertex(7),
-							TargetVertex: buildEmptyVertex(8),
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
 						},
 						{
-							SourceVertex: buildEmptyVertex(8),
-							TargetVertex: buildEmptyVertex(4),
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
 						},
 						{
-							SourceVertex: buildEmptyVertex(4),
-							TargetVertex: buildEmptyVertex(1),
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(3),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(3),
+							TargetVertex: graph_builders.BuildEmptyVertex(2),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(2),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
+						},
+					},
+				},
+				{
+					Edges: []model.Edge{
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(1),
+							TargetVertex: graph_builders.BuildEmptyVertex(5),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(5),
+							TargetVertex: graph_builders.BuildEmptyVertex(7),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(7),
+							TargetVertex: graph_builders.BuildEmptyVertex(8),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(8),
+							TargetVertex: graph_builders.BuildEmptyVertex(4),
+						},
+						{
+							SourceVertex: graph_builders.BuildEmptyVertex(4),
+							TargetVertex: graph_builders.BuildEmptyVertex(1),
 						},
 					},
 				},

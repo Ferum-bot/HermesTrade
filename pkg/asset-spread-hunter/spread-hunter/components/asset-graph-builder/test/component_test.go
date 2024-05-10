@@ -12,42 +12,355 @@ import (
 
 func TestAssetGraphBuilder_BuildGraphFromAssets(t *testing.T) {
 	type testCase struct {
-		inputAssetsPair  []model.AssetCurrencyPair
+		inputAssetsPairs []model.AssetCurrencyPair
 		expectedVertexes []model2.GraphVertex
 		expectedErr      error
 	}
 
+	assetsPairs := []model.AssetCurrencyPair{
+
+		// First source
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  11,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  12,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     123,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  14,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  13,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1123,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 5,
+				ExternalIdentifier:  15,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 6,
+				ExternalIdentifier:  16,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 0,
+				Value:     90,
+			},
+		},
+
+		// Second source
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  21,
+				SourceIdentifier:    2,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  22,
+				SourceIdentifier:    2,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     123,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  23,
+				SourceIdentifier:    2,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  24,
+				SourceIdentifier:    2,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     123,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 6,
+				ExternalIdentifier:  25,
+				SourceIdentifier:    2,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 5,
+				ExternalIdentifier:  26,
+				SourceIdentifier:    2,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     123,
+			},
+		},
+	}
+
+	cycleAssetsPairs := []model.AssetCurrencyPair{
+		// First Source
+		{
+			Identifier: model.AssetPairIdentifier("EUR/USD"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  102,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  101,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1123,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier("USD/EUR"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  101,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  102,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     8,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 52,
+				ExternalIdentifier:  202,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 51,
+				ExternalIdentifier:  201,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1234,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 51,
+				ExternalIdentifier:  201,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 52,
+				ExternalIdentifier:  202,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1234,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 62,
+				ExternalIdentifier:  302,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 61,
+				ExternalIdentifier:  301,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1234,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier(uuid.New().String()),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 61,
+				ExternalIdentifier:  301,
+				SourceIdentifier:    1,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 62,
+				ExternalIdentifier:  302,
+				SourceIdentifier:    1,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1234,
+			},
+		},
+
+		// Second Source
+		{
+			Identifier: model.AssetPairIdentifier("USD/RUB"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  902,
+				SourceIdentifier:    2,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  901,
+				SourceIdentifier:    2,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 0,
+				Value:     90,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier("RUB/USD"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  901,
+				SourceIdentifier:    2,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 1,
+				ExternalIdentifier:  902,
+				SourceIdentifier:    2,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 3,
+				Value:     1,
+			},
+		},
+
+		// Third Source
+		{
+			Identifier: model.AssetPairIdentifier("RUB/GBP"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  801,
+				SourceIdentifier:    3,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  802,
+				SourceIdentifier:    3,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     1,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier("GBP/RUB"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  802,
+				SourceIdentifier:    3,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 3,
+				ExternalIdentifier:  801,
+				SourceIdentifier:    3,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 0,
+				Value:     10,
+			},
+		},
+
+		// Fours source
+		{
+			Identifier: model.AssetPairIdentifier("GBP/EUR"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  702,
+				SourceIdentifier:    4,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  701,
+				SourceIdentifier:    4,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 1,
+				Value:     1,
+			},
+		},
+		{
+			Identifier: model.AssetPairIdentifier("EUR/GBP"),
+			BaseAsset: model.Asset{
+				UniversalIdentifier: 2,
+				ExternalIdentifier:  701,
+				SourceIdentifier:    4,
+			},
+			QuotedAsset: model.Asset{
+				UniversalIdentifier: 4,
+				ExternalIdentifier:  702,
+				SourceIdentifier:    4,
+			},
+			CurrencyRatio: model.AssetsCurrencyRatio{
+				Precision: 0,
+				Value:     1,
+			},
+		},
+	}
+
 	tests := map[string]testCase{
 		"empty_assets_pairs": {
-			inputAssetsPair:  []model.AssetCurrencyPair{},
+			inputAssetsPairs: []model.AssetCurrencyPair{},
 			expectedVertexes: []model2.GraphVertex{},
 		},
 		"one_asset_pair": {
-			inputAssetsPair: []model.AssetCurrencyPair{
-				{
-					Identifier: model.AssetPairIdentifier(uuid.New().String()),
-					BaseAsset: model.Asset{
-						UniversalIdentifier: 1,
-						ExternalIdentifier:  11,
-						SourceIdentifier:    1,
-					},
-					QuotedAsset: model.Asset{
-						UniversalIdentifier: 2,
-						ExternalIdentifier:  12,
-						SourceIdentifier:    1,
-					},
-					CurrencyRatio: model.AssetsCurrencyRatio{
-						Precision: 1,
-						Value:     123,
-					},
-				},
-			},
-			expectedVertexes: buildVertexesForOneAssetPair(),
+			inputAssetsPairs: assetsPairs[0:1],
+			expectedVertexes: buildVertexesForOneAssetPair(t, assetsPairs[0]),
 		},
-		"three_asset_pairs_in_one_source":      {},
-		"two_asset_pairs_in_different_sources": {},
-		"small_cycle_of_asset_pairs":           {},
-		"many_cycles_and_many_asset_pairs":     {},
+		"three_asset_pairs_in_one_source": {
+			inputAssetsPairs: assetsPairs[0:3],
+			expectedVertexes: buildVertexesForAssetsInOneSource(t, assetsPairs[0:3]),
+		},
+		"two_asset_pairs_in_different_sources": {
+			inputAssetsPairs: append(assetsPairs[0:1], assetsPairs[3:4]...),
+			expectedVertexes: buildVertexesForTwoAssetsInDifferentSources(t, assetsPairs[0], assetsPairs[3]),
+		},
+		"many_cycles_and_many_asset_pairs": {
+			inputAssetsPairs: cycleAssetsPairs,
+			expectedVertexes: buildVertexesForCycleAssetPairs(t, cycleAssetsPairs),
+		},
 	}
 
 	for name, test := range tests {
@@ -55,7 +368,7 @@ func TestAssetGraphBuilder_BuildGraphFromAssets(t *testing.T) {
 			ctx := context.Background()
 			graphBuilder := asset_graph_builder.NewAssetGraphBuilder()
 
-			actualGraph, actualErr := graphBuilder.BuildGraphFromAssets(ctx, test.inputAssetsPair)
+			actualGraph, actualErr := graphBuilder.BuildGraphFromAssets(ctx, test.inputAssetsPairs)
 			if test.expectedErr != nil {
 				assert.Error(t, actualErr)
 				assert.Equal(t, test.expectedErr, actualErr)

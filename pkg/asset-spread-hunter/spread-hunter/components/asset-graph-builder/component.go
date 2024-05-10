@@ -3,6 +3,7 @@ package asset_graph_builder
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-algorithms/model"
+	graph_builders "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/graph-builders"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
 	model2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter/model"
 	"strconv"
@@ -10,7 +11,7 @@ import (
 
 type graphVertexesByIdentifier map[model2.AssetExternalIdentifier]*model.GraphVertex
 
-const weightBetweenSources = model.EdgeWeight(1)
+const sourceEdgeWeight = model.EdgeWeight(1)
 const maxAvailablePrecision = 10
 
 type AssetGraphBuilder struct {
@@ -48,17 +49,20 @@ func (graphBuilder *AssetGraphBuilder) createEmptyVertexes(
 	vertexes := make(map[model2.AssetExternalIdentifier]*model.GraphVertex, 2*len(assets))
 
 	for _, asset := range assets {
+		baseAsset := asset.BaseAsset
+		quotedAsset := asset.QuotedAsset
+
 		baseVertex := model.GraphVertex{
-			Identifier: model.GraphVertexIdentifier(asset.BaseAsset.ExternalIdentifier),
+			Identifier: model.GraphVertexIdentifier(baseAsset.ExternalIdentifier),
 			Edges:      make([]model.VertexEdge, 0),
 		}
 		quotedVertex := model.GraphVertex{
-			Identifier: model.GraphVertexIdentifier(asset.QuotedAsset.ExternalIdentifier),
+			Identifier: model.GraphVertexIdentifier(quotedAsset.ExternalIdentifier),
 			Edges:      make([]model.VertexEdge, 0),
 		}
 
-		vertexes[asset.BaseAsset.ExternalIdentifier] = &baseVertex
-		vertexes[asset.QuotedAsset.ExternalIdentifier] = &quotedVertex
+		vertexes[baseAsset.ExternalIdentifier] = &baseVertex
+		vertexes[quotedAsset.ExternalIdentifier] = &quotedVertex
 	}
 
 	return vertexes
@@ -106,55 +110,29 @@ func (graphBuilder *AssetGraphBuilder) addAssetCurrencyPairsEdges(
 }
 
 func (graphBuilder *AssetGraphBuilder) addAssetSourcesEdges(
-	assets []model2.AssetCurrencyPair,
+	assetPairs []model2.AssetCurrencyPair,
 	vertexes graphVertexesByIdentifier,
 ) {
-	assetsByUniversalIdentifier := make(map[model2.AssetUniversalIdentifier][]model2.Asset, len(assets))
 
-	for _, asset := range assets {
-		baseAsset := asset.BaseAsset
-		quotedAsset := asset.QuotedAsset
-
-		_, baseExists := assetsByUniversalIdentifier[baseAsset.UniversalIdentifier]
-		if !baseExists {
-			assetsByUniversalIdentifier[baseAsset.UniversalIdentifier] = make([]model2.Asset, 0)
-		}
-
-		_, quotedExists := assetsByUniversalIdentifier[quotedAsset.UniversalIdentifier]
-		if !quotedExists {
-			assetsByUniversalIdentifier[quotedAsset.UniversalIdentifier] = make([]model2.Asset, 0)
-		}
-
-		assetsByUniversalIdentifier[baseAsset.UniversalIdentifier] = append(
-			assetsByUniversalIdentifier[baseAsset.UniversalIdentifier], baseAsset,
-		)
-		assetsByUniversalIdentifier[quotedAsset.UniversalIdentifier] = append(
-			assetsByUniversalIdentifier[quotedAsset.UniversalIdentifier], quotedAsset,
-		)
-	}
-
-	for _, assets := range assetsByUniversalIdentifier {
-		graphBuilder.addEdgesBetweenAllAssets(assets, vertexes)
-	}
-}
-
-func (graphBuilder *AssetGraphBuilder) addEdgesBetweenAllAssets(
-	assets []model2.Asset,
-	vertexes graphVertexesByIdentifier,
-) {
-	for i := range assets {
-		for j := range assets {
+	for i := range assetPairs {
+		for j := range assetPairs {
 			if i == j {
 				continue
 			}
 
-			firstVertex := vertexes[assets[i].ExternalIdentifier]
-			secondVertex := vertexes[assets[j].ExternalIdentifier]
+			firstQuotedAsset := assetPairs[i].QuotedAsset
+			secondBaseAsset := assetPairs[j].BaseAsset
 
-			firstVertex.Edges = append(firstVertex.Edges, model.VertexEdge{
-				TargetVertex: secondVertex,
-				Weight:       weightBetweenSources,
-			})
+			if firstQuotedAsset.SourceIdentifier == secondBaseAsset.SourceIdentifier {
+				continue
+			}
+
+			if firstQuotedAsset.UniversalIdentifier == secondBaseAsset.UniversalIdentifier {
+				sourceVertex := vertexes[firstQuotedAsset.ExternalIdentifier]
+				targetVertex := vertexes[secondBaseAsset.ExternalIdentifier]
+
+				graph_builders.BuildEdgeWithWeight(sourceVertex, targetVertex, sourceEdgeWeight)
+			}
 		}
 	}
 }

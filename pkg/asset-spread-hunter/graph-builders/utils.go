@@ -19,3 +19,14 @@ func BuildEdge(sourceVertex *model.GraphVertex, targetVertex *model.GraphVertex)
 		Weight:       model.EdgeWeight(1),
 	})
 }
+
+func BuildEdgeWithWeight(
+	sourceVertex *model.GraphVertex,
+	targetVertex *model.GraphVertex,
+	weight model.EdgeWeight,
+) {
+	sourceVertex.Edges = append(sourceVertex.Edges, model.VertexEdge{
+		TargetVertex: targetVertex,
+		Weight:       weight,
+	})
+}
