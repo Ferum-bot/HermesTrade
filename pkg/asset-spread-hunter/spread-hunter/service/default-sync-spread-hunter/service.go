@@ -62,7 +62,7 @@ func (spreadHunter *defaultSpreadHunter) SearchSpread(
 		return nil, errors2.Wrap(err, "spreadHunter.graphCyclesSearcher.SearchAllCycles")
 	}
 
-	spreads, err := spreadHunter.cyclesConverter.ConvertCyclesToSpreads(ctx, foundCycles)
+	spreads, err := spreadHunter.cyclesConverter.ConvertCyclesToSpreads(ctx, foundCycles, assetPairs)
 	if err != nil {
 		return nil, errors2.Wrap(err, "spreadHunter.cyclesConverter.ConvertCyclesToSpreads")
 	}
@@ -112,7 +112,7 @@ func (spreadHunter *defaultSpreadHunter) spreadIsMatchSettings(
 
 	if maxProfitability != nil {
 		profitabilityIsGrater := spreadHunter.profitabilityComparer.ProfitabilityIsGreaterThan(
-			spread.MetaInformation.Profitability, *maxProfitability,
+			spread.MetaInformation.ProfitabilityPercent, *maxProfitability,
 		)
 		if profitabilityIsGrater {
 			return false
@@ -121,7 +121,7 @@ func (spreadHunter *defaultSpreadHunter) spreadIsMatchSettings(
 
 	if minProfitability != nil {
 		profitabilityIsLess := spreadHunter.profitabilityComparer.ProfitabilityIsLessThan(
-			spread.MetaInformation.Profitability, *minProfitability,
+			spread.MetaInformation.ProfitabilityPercent, *minProfitability,
 		)
 		if profitabilityIsLess {
 			return false

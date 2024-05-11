@@ -19,18 +19,19 @@ type cyclesSpreadConverter interface {
 	ConvertCyclesToSpreads(
 		ctx context.Context,
 		cycles []model.GraphCycle,
+		sourceAssetPairs []model2.AssetCurrencyPair,
 	) ([]model2.Spread, error)
 }
 
 type profitabilityComparer interface {
 	ProfitabilityIsLessThan(
-		source model2.SpreadProfitability,
-		than model2.SpreadProfitability,
+		source model2.SpreadProfitabilityPercent,
+		than model2.SpreadProfitabilityPercent,
 	) bool
 
 	ProfitabilityIsGreaterThan(
-		source model2.SpreadProfitability,
-		than model2.SpreadProfitability,
+		source model2.SpreadProfitabilityPercent,
+		than model2.SpreadProfitabilityPercent,
 	) bool
 }
 

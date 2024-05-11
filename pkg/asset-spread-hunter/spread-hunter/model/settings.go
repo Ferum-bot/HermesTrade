@@ -7,6 +7,6 @@ type SpreadSearchSettings struct {
 	MaxSpreadLength *int64
 	MinSpreadLength *int64
 
-	MinSearchProfitabilityRatio *SpreadProfitability
-	MaxSearchProfitabilityRatio *SpreadProfitability
+	MinSearchProfitabilityRatio *SpreadProfitabilityPercent
+	MaxSearchProfitabilityRatio *SpreadProfitabilityPercent
 }

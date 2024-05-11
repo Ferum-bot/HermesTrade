@@ -18,12 +18,12 @@ type SpreadElement struct {
 }
 
 type SpreadMetaInformation struct {
-	Length        SpreadLength
-	Profitability SpreadProfitability
-	CreatedAt     time.Time
+	Length               SpreadLength
+	ProfitabilityPercent SpreadProfitabilityPercent
+	CreatedAt            time.Time
 }
 
-type SpreadProfitability struct {
+type SpreadProfitabilityPercent struct {
 	Precision int64
 	Value     int64
 }

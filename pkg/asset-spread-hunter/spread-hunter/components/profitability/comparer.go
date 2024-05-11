@@ -14,8 +14,8 @@ func NewComparer() *Comparer {
 }
 
 func (c *Comparer) ProfitabilityIsLessThan(
-	source model.SpreadProfitability,
-	than model.SpreadProfitability,
+	source model.SpreadProfitabilityPercent,
+	than model.SpreadProfitabilityPercent,
 ) bool {
 	biggestPrecision := source.Precision
 	if than.Precision > biggestPrecision {
@@ -43,8 +43,8 @@ func (c *Comparer) ProfitabilityIsLessThan(
 }
 
 func (c *Comparer) ProfitabilityIsGreaterThan(
-	source model.SpreadProfitability,
-	than model.SpreadProfitability,
+	source model.SpreadProfitabilityPercent,
+	than model.SpreadProfitabilityPercent,
 ) bool {
 	biggestPrecision := source.Precision
 	if than.Precision > biggestPrecision {

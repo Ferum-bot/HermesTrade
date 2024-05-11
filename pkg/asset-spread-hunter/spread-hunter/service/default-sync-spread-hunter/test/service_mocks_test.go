@@ -80,18 +80,18 @@ func (m *MockcyclesSpreadConverter) EXPECT() *MockcyclesSpreadConverterMockRecor
 }
 
 // ConvertCyclesToSpreads mocks base method.
-func (m *MockcyclesSpreadConverter) ConvertCyclesToSpreads(ctx context.Context, cycles []model.GraphCycle) ([]model0.Spread, error) {
+func (m *MockcyclesSpreadConverter) ConvertCyclesToSpreads(ctx context.Context, cycles []model.GraphCycle, sourceAssetPairs []model0.AssetCurrencyPair) ([]model0.Spread, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ConvertCyclesToSpreads", ctx, cycles)
+	ret := m.ctrl.Call(m, "ConvertCyclesToSpreads", ctx, cycles, sourceAssetPairs)
 	ret0, _ := ret[0].([]model0.Spread)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ConvertCyclesToSpreads indicates an expected call of ConvertCyclesToSpreads.
-func (mr *MockcyclesSpreadConverterMockRecorder) ConvertCyclesToSpreads(ctx, cycles any) *gomock.Call {
+func (mr *MockcyclesSpreadConverterMockRecorder) ConvertCyclesToSpreads(ctx, cycles, sourceAssetPairs any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConvertCyclesToSpreads", reflect.TypeOf((*MockcyclesSpreadConverter)(nil).ConvertCyclesToSpreads), ctx, cycles)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ConvertCyclesToSpreads", reflect.TypeOf((*MockcyclesSpreadConverter)(nil).ConvertCyclesToSpreads), ctx, cycles, sourceAssetPairs)
 }
 
 // MockprofitabilityComparer is a mock of profitabilityComparer interface.
@@ -118,7 +118,7 @@ func (m *MockprofitabilityComparer) EXPECT() *MockprofitabilityComparerMockRecor
 }
 
 // ProfitabilityIsGreaterThan mocks base method.
-func (m *MockprofitabilityComparer) ProfitabilityIsGreaterThan(source, than model0.SpreadProfitability) bool {
+func (m *MockprofitabilityComparer) ProfitabilityIsGreaterThan(source, than model0.SpreadProfitabilityPercent) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ProfitabilityIsGreaterThan", source, than)
 	ret0, _ := ret[0].(bool)
@@ -132,7 +132,7 @@ func (mr *MockprofitabilityComparerMockRecorder) ProfitabilityIsGreaterThan(sour
 }
 
 // ProfitabilityIsLessThan mocks base method.
-func (m *MockprofitabilityComparer) ProfitabilityIsLessThan(source, than model0.SpreadProfitability) bool {
+func (m *MockprofitabilityComparer) ProfitabilityIsLessThan(source, than model0.SpreadProfitabilityPercent) bool {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ProfitabilityIsLessThan", source, than)
 	ret0, _ := ret[0].(bool)

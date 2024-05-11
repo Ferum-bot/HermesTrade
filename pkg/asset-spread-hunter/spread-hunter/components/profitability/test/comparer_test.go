@@ -9,40 +9,40 @@ import (
 
 func TestComparer_ProfitabilityIsLessThan(t *testing.T) {
 	type testCase struct {
-		sourceProfitability model.SpreadProfitability
-		thanProfitability   model.SpreadProfitability
+		sourceProfitability model.SpreadProfitabilityPercent
+		thanProfitability   model.SpreadProfitabilityPercent
 		expectedResult      bool
 	}
 
 	tests := map[string]testCase{
 		"similar_precision_easy": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6666,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     7777,
 			},
 			expectedResult: true,
 		},
 		"similar_precision_hard": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6666,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6671,
 			},
 			expectedResult: true,
 		},
 		"different_precision": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 2,
 				Value:     112,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 4,
 				Value:     6789,
 			},
@@ -63,40 +63,40 @@ func TestComparer_ProfitabilityIsLessThan(t *testing.T) {
 
 func TestComparer_ProfitabilityIsGreaterThan(t *testing.T) {
 	type testCase struct {
-		sourceProfitability model.SpreadProfitability
-		thanProfitability   model.SpreadProfitability
+		sourceProfitability model.SpreadProfitabilityPercent
+		thanProfitability   model.SpreadProfitabilityPercent
 		expectedResult      bool
 	}
 
 	tests := map[string]testCase{
 		"similar_precision_easy": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6666,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     7777,
 			},
 			expectedResult: false,
 		},
 		"similar_precision_hard": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6666,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 3,
 				Value:     6671,
 			},
 			expectedResult: false,
 		},
 		"different_precision": {
-			sourceProfitability: model.SpreadProfitability{
+			sourceProfitability: model.SpreadProfitabilityPercent{
 				Precision: 2,
 				Value:     112,
 			},
-			thanProfitability: model.SpreadProfitability{
+			thanProfitability: model.SpreadProfitabilityPercent{
 				Precision: 4,
 				Value:     6789,
 			},

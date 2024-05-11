@@ -121,11 +121,11 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 	}
 	maxSpreadLength := int64(10)
 	minSpreadLength := int64(0)
-	minProfitability := model.SpreadProfitability{
+	minProfitability := model.SpreadProfitabilityPercent{
 		Precision: 0,
 		Value:     0,
 	}
-	maxProfitability := model.SpreadProfitability{
+	maxProfitability := model.SpreadProfitabilityPercent{
 		Precision: 0,
 		Value:     100000,
 	}
@@ -195,40 +195,40 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 		},
 	}
 	emptyCycles := []model2.GraphCycle{}
-	spreadProfitability := model.SpreadProfitability{
+	spreadProfitability := model.SpreadProfitabilityPercent{
 		Precision: 2,
 		Value:     811,
 	}
 	spreads := []model.Spread{
 		{
 			MetaInformation: model.SpreadMetaInformation{
-				Length:        3,
-				Profitability: minProfitability,
-				CreatedAt:     time.Now(),
+				Length:               3,
+				ProfitabilityPercent: minProfitability,
+				CreatedAt:            time.Now(),
 			},
 			Identifier: model.SpreadIdentifier(uuid.New().String()),
 		},
 		{
 			MetaInformation: model.SpreadMetaInformation{
-				Length:        3,
-				Profitability: maxProfitability,
-				CreatedAt:     time.Now(),
+				Length:               3,
+				ProfitabilityPercent: maxProfitability,
+				CreatedAt:            time.Now(),
 			},
 			Identifier: model.SpreadIdentifier(uuid.New().String()),
 		},
 		{
 			MetaInformation: model.SpreadMetaInformation{
-				Length:        0,
-				Profitability: spreadProfitability,
-				CreatedAt:     time.Now(),
+				Length:               0,
+				ProfitabilityPercent: spreadProfitability,
+				CreatedAt:            time.Now(),
 			},
 			Identifier: model.SpreadIdentifier(uuid.New().String()),
 		},
 		{
 			MetaInformation: model.SpreadMetaInformation{
-				Length:        8,
-				Profitability: spreadProfitability,
-				CreatedAt:     time.Now(),
+				Length:               8,
+				ProfitabilityPercent: spreadProfitability,
+				CreatedAt:            time.Now(),
 			},
 			Identifier: model.SpreadIdentifier(uuid.New().String()),
 		},
@@ -250,7 +250,7 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 			},
 			initCyclesConverter: func(mock *MockcyclesSpreadConverter) {
 				mock.EXPECT().
-					ConvertCyclesToSpreads(gomock.Any(), emptyCycles).
+					ConvertCyclesToSpreads(gomock.Any(), emptyCycles, assetPairs).
 					Times(1).
 					Return([]model.Spread{}, nil)
 			},
@@ -273,7 +273,7 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 			},
 			initCyclesConverter: func(mock *MockcyclesSpreadConverter) {
 				mock.EXPECT().
-					ConvertCyclesToSpreads(gomock.Any(), cycles).
+					ConvertCyclesToSpreads(gomock.Any(), cycles, assetPairs).
 					Times(1).
 					Return(spreads, nil)
 			},
@@ -322,7 +322,7 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 			},
 			initCyclesConverter: func(mock *MockcyclesSpreadConverter) {
 				mock.EXPECT().
-					ConvertCyclesToSpreads(gomock.Any(), cycles).
+					ConvertCyclesToSpreads(gomock.Any(), cycles, assetPairs).
 					Times(1).
 					Return(spreads, nil)
 			},
@@ -392,7 +392,7 @@ func TestDefaultSpreadHunter_SearchSpread(t *testing.T) {
 			},
 			initCyclesConverter: func(mock *MockcyclesSpreadConverter) {
 				mock.EXPECT().
-					ConvertCyclesToSpreads(gomock.Any(), cycles).
+					ConvertCyclesToSpreads(gomock.Any(), cycles, assetPairs).
 					Times(1).
 					Return(nil, errors.New("something went wrong"))
 			},
@@ -462,7 +462,7 @@ func spreadsIsEqual(firstSpread model.Spread, secondSpread model.Spread) bool {
 	if firstSpread.MetaInformation.Length != secondSpread.MetaInformation.Length {
 		return false
 	}
-	if firstSpread.MetaInformation.Profitability != secondSpread.MetaInformation.Profitability {
+	if firstSpread.MetaInformation.ProfitabilityPercent != secondSpread.MetaInformation.ProfitabilityPercent {
 		return false
 	}
 
