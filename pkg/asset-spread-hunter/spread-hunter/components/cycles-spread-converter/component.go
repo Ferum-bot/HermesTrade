@@ -45,18 +45,18 @@ func (converter *CyclesSpreadConverter) convertCycleToSpread(
 	spread := model.Spread{
 		Identifier: model.SpreadIdentifier(uuid.New().String()),
 		MetaInformation: model.SpreadMetaInformation{
-			Length:    model.SpreadLength(len(cycle.Edges)),
+			Length:    model.SpreadLength(len(cycle.Edges) / 2),
 			CreatedAt: time.Now(),
 		},
 	}
 
 	spreadHead := converter.buildSpreadAssetsPairChain(cycle, sourceAssetPairs)
+	spread.Head = spreadHead
+
 	spreadProfitability, err := converter.calculateSpreadProfitability(spread)
 	if err != nil {
 		return model.Spread{}, errors.Wrap(err, "converter.calculateSpreadProfitability")
 	}
-
-	spread.Head = spreadHead
 	spread.MetaInformation.ProfitabilityPercent = spreadProfitability
 
 	return spread, nil
@@ -71,20 +71,25 @@ func (converter *CyclesSpreadConverter) buildSpreadAssetsPairChain(
 
 	for _, edge := range cycle.Edges {
 		assetPair := findAssetPairBy(*edge.SourceVertex, *edge.TargetVertex, sourceAssetPairs)
+		if assetPair == nil {
+			continue
+		}
 
 		if rootElement == nil {
 			rootElement = &model.SpreadElement{
-				AssetPair: assetPair,
+				AssetPair: *assetPair,
 			}
 			currentElement = rootElement
 		} else {
 			newElement := &model.SpreadElement{
-				AssetPair: assetPair,
+				AssetPair: *assetPair,
 			}
 			currentElement.NextElement = newElement
 			currentElement = newElement
 		}
 	}
+
+	currentElement.NextElement = rootElement
 
 	return *rootElement
 }
@@ -93,8 +98,8 @@ func findAssetPairBy(
 	sourceVertex model2.GraphVertex,
 	targetVertex model2.GraphVertex,
 	assetPairs []model.AssetCurrencyPair,
-) model.AssetCurrencyPair {
-	result := model.AssetCurrencyPair{}
+) *model.AssetCurrencyPair {
+	var result *model.AssetCurrencyPair
 
 	for _, assetPair := range assetPairs {
 		baseAssetIdentifier := int64(assetPair.BaseAsset.ExternalIdentifier)
@@ -105,7 +110,7 @@ func findAssetPairBy(
 
 		if baseAssetIdentifier == sourceVertexIdentifier &&
 			quotedAssetIdentifiers == targetVertexIdentifier {
-			result = assetPair
+			result = &assetPair
 			break
 		}
 	}
@@ -194,10 +199,19 @@ func calculateNextCurrencyValueFrom(
 		commonPrecision = maxProfitabilityPrecision
 	}
 
-	useFullDigitsCount := int64(len(resultValueString)) - commonPrecision
-	resultValueStringWithPrecision := resultValueString[0:useFullDigitsCount]
+	for len(resultValueString) > 0 && commonPrecision > 0 {
+		if resultValueString[len(resultValueString)-1] == '0' {
+			commonPrecision--
+			resultValueString = resultValueString[:len(resultValueString)-1]
+		} else {
+			break
+		}
+	}
+	if len(resultValueString) == 0 {
+		commonPrecision = 0
+	}
 
-	resultValue, err := strconv.ParseInt(resultValueStringWithPrecision, 10, 64)
+	resultValue, err := strconv.ParseInt(resultValueString, 10, 64)
 	if err != nil {
 		return 0, 0, errors.Wrap(err, "strconv.ParseInt")
 	}
