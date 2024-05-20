@@ -1,12 +1,13 @@
-package stop
+package start
 
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/commands"
 	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/model"
+	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
 )
 
-const CommandName = "/stop"
+const CommandName = "/start"
 
 type command struct {
 	telegramBot telegramBot
@@ -29,6 +30,15 @@ func (c command) CommandReceived(
 	chatID model.ChatID,
 	authorID model.UserID,
 ) error {
-	//TODO implement me
-	panic("implement me")
+	err := c.telegramBot.SendMessage(ctx, chatID, initialBotMessage)
+	if err != nil {
+		return errors.Wrap(err, "c.telegramBot.SendMessage initialBotMessage")
+	}
+
+	err = c.telegramBot.SendMessage(ctx, chatID, availableCommandsWithDescription)
+	if err != nil {
+		return errors.Wrap(err, "c.telegramBot.SendMessage availableCommandsWithDescription")
+	}
+
+	return nil
 }
