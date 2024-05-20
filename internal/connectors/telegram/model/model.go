@@ -8,3 +8,8 @@ const (
 	ProfitabilityPercent5
 	ProfitabilityPercent20
 )
+
+type Chat struct {
+	ChatID            ChatID
+	ProfitabilityType ProfitabilitySettingsType
+}
