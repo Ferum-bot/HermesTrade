@@ -61,3 +61,20 @@ func (service *Service) RemoveChat(
 
 	return nil
 }
+
+func (service *Service) GetChatsCountWithProfitability(
+	ctx context.Context,
+	profitability model.ProfitabilitySettingsType,
+) (int64, error) {
+	//TODO implement me
+	panic("implement me")
+}
+
+func (service *Service) GetChatsWithProfitability(
+	ctx context.Context,
+	profitability model.ProfitabilitySettingsType,
+	pageNumber, pageSize int64,
+) ([]model.Chat, error) {
+	//TODO implement me
+	panic("implement me")
+}
