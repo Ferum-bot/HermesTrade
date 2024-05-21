@@ -1,5 +1,7 @@
 package model
 
+import "time"
+
 type ProfitabilitySettingsType int64
 
 const (
@@ -12,4 +14,9 @@ const (
 type Chat struct {
 	ChatID            ChatID
 	ProfitabilityType ProfitabilitySettingsType
+}
+
+type SpreadParameters struct {
+	MaxLength int64
+	FoundTime time.Time
 }
