@@ -7,6 +7,7 @@ import (
 	errors2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"time"
 )
 
 const collectionName = "chats"
@@ -60,43 +61,72 @@ func (storage *Storage) UpdateChatProfitability(
 	chatID model.ChatID,
 	newProfitability model.ProfitabilitySettingsType,
 ) error {
+	now := toDatabaseTimeFormat(time.Now())
 
-	updateResult, err := storage.collection.UpdateMany(
+	_, err := storage.collection.UpdateOne(
 		ctx,
 		bson.D{
 			{
 				chatFieldChatID,
-				bson.M{
-					"$in": chatID,
-				},
+				chatID,
 			},
 		},
 		bson.D{
 			{
 				"$set",
 				bson.D{
-					{chatFieldChatID, newStatus},
 					{chatFieldProfitabilitySettingsType, convertProfitability(newProfitability)},
+					{chatFieldUpdatedAt, now},
 				},
 			},
 		},
 	)
+
+	if err != nil {
+		return errors2.Wrap(err, "storage.collection.UpdateOne")
+	}
+
+	return nil
 }
 
 func (storage *Storage) CreateChat(
 	ctx context.Context,
 	chat model.Chat,
 ) error {
-	//TODO implement me
-	panic("implement me")
+	chatRow := chatRow{
+		ChatID:                    int64(chat.ChatID),
+		ProfitabilitySettingsType: convertProfitability(chat.ProfitabilityType),
+		CreatedAt:                 toDatabaseTimeFormat(time.Now()),
+		UpdatedAt:                 toDatabaseTimeFormat(time.Now()),
+	}
+
+	_, err := storage.collection.InsertOne(ctx, chatRow)
+	if err != nil {
+		return errors2.Wrap(err, "storage.collection.InsertOne")
+	}
+
+	return nil
 }
 
 func (storage *Storage) DeleteChat(
 	ctx context.Context,
 	chatID model.ChatID,
 ) error {
-	//TODO implement me
-	panic("implement me")
+	_, err := storage.collection.DeleteOne(
+		ctx,
+		bson.D{
+			{
+				chatFieldChatID,
+				chatID,
+			},
+		},
+	)
+
+	if err != nil {
+		return errors2.Wrap(err, "storage.collection.DeleteOne")
+	}
+
+	return nil
 }
 
 func parseProfitability(profitability string) model.ProfitabilitySettingsType {
@@ -127,4 +157,8 @@ func convertProfitability(profitability model.ProfitabilitySettingsType) string 
 	}
 
 	return profitabilityType20Percent
+}
+
+func toDatabaseTimeFormat(value time.Time) int64 {
+	return value.UnixMilli()
 }

@@ -1,7 +1,5 @@
 package chat
 
-import "time"
-
 const (
 	chatFieldChatID                    = "chat_id"
 	chatFieldProfitabilitySettingsType = "profitability_settings_type"
@@ -16,8 +14,8 @@ const (
 )
 
 type chatRow struct {
-	ChatID                    int64     `bson:"chat_id"`
-	ProfitabilitySettingsType string    `bson:"profitability_settings_type"`
-	CreatedAt                 time.Time `bson:"created_at"`
-	UpdatedAt                 time.Time `bson:"updated_at"`
+	ChatID                    int64  `bson:"chat_id"`
+	ProfitabilitySettingsType string `bson:"profitability_settings_type"`
+	CreatedAt                 int64  `bson:"created_at"`
+	UpdatedAt                 int64  `bson:"updated_at"`
 }
