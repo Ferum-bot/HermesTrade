@@ -57,7 +57,9 @@ func getSpreadProfitability(spread model.Spread) string {
 			profitabilityString.WriteString(string([]rune(profitabilityValueString)[i]))
 		}
 
-		profitabilityString.WriteString(",")
+		if iterations < int64(len(profitabilityValueString)) {
+			profitabilityString.WriteString(",")
+		}
 
 		for i := iterations; i < int64(len(profitabilityValueString)); i++ {
 			profitabilityString.WriteString(string([]rune(profitabilityValueString)[i]))
@@ -112,7 +114,9 @@ func getCurrencyRation(ratio model.AssetsCurrencyRatio) string {
 			ratioString.WriteString(string([]rune(ratioValueString)[i]))
 		}
 
-		ratioString.WriteString(",")
+		if iterations < int64(len(ratioValueString)) {
+			ratioString.WriteString(",")
+		}
 
 		for i := iterations; i < int64(len(ratioValueString)); i++ {
 			ratioString.WriteString(string([]rune(ratioValueString)[i]))

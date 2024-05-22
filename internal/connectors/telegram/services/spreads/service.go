@@ -339,17 +339,17 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 	case model.ProfitabilityAll:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
 			Precision: 3,
-			Value:     rand.Int63()%30 + 5,
+			Value:     rand.Int63()%90 + 500,
 		}
 	case model.ProfitabilityPercent1:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
 			Precision: 2,
-			Value:     rand.Int63()%80 + 1,
+			Value:     rand.Int63()%80 + 100,
 		}
 	case model.ProfitabilityPercent5:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
 			Precision: 1,
-			Value:     rand.Int63()%50 + 50,
+			Value:     rand.Int63()%10 + 50,
 		}
 	default:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
