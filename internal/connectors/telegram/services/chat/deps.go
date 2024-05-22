@@ -11,6 +11,12 @@ type chatStorage interface {
 		chatID model.ChatID,
 	) (*model.Chat, error)
 
+	GetChatsWithProfitability(
+		ctx context.Context,
+		settingsType model.ProfitabilitySettingsType,
+		skipCount, limit int64,
+	) ([]model.Chat, error)
+
 	UpdateChatProfitability(
 		ctx context.Context,
 		chatID model.ChatID,
@@ -26,4 +32,9 @@ type chatStorage interface {
 		ctx context.Context,
 		chatID model.ChatID,
 	) error
+
+	CountChatsWithProfitability(
+		ctx context.Context,
+		profitability model.ProfitabilitySettingsType,
+	) (int64, error)
 }

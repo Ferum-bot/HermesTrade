@@ -66,8 +66,12 @@ func (service *Service) GetChatsCountWithProfitability(
 	ctx context.Context,
 	profitability model.ProfitabilitySettingsType,
 ) (int64, error) {
-	//TODO implement me
-	panic("implement me")
+	count, err := service.storage.CountChatsWithProfitability(ctx, profitability)
+	if err != nil {
+		return 0, errors.Wrap(err, "service.storage.CountChatsWithProfitability")
+	}
+
+	return count, nil
 }
 
 func (service *Service) GetChatsWithProfitability(
@@ -75,6 +79,13 @@ func (service *Service) GetChatsWithProfitability(
 	profitability model.ProfitabilitySettingsType,
 	pageNumber, pageSize int64,
 ) ([]model.Chat, error) {
-	//TODO implement me
-	panic("implement me")
+	skipCount := pageNumber * pageSize
+	limit := pageSize
+
+	chats, err := service.storage.GetChatsWithProfitability(ctx, profitability, skipCount, limit)
+	if err != nil {
+		return nil, errors.Wrap(err, "service.storage.GetChatsWithProfitability")
+	}
+
+	return chats, nil
 }

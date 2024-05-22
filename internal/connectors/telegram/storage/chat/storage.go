@@ -5,8 +5,10 @@ import (
 	"errors"
 	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/model"
 	errors2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
+	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/pointers"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	options2 "go.mongodb.org/mongo-driver/mongo/options"
 	"time"
 )
 
@@ -54,6 +56,62 @@ func (storage *Storage) GetChatByChatID(
 		ChatID:            model.ChatID(foundChat.ChatID),
 		ProfitabilityType: parseProfitability(foundChat.ProfitabilitySettingsType),
 	}, nil
+}
+
+func (storage *Storage) GetChatsWithProfitability(
+	ctx context.Context,
+	settingsType model.ProfitabilitySettingsType,
+	skipCount, limit int64,
+) ([]model.Chat, error) {
+	options := options2.FindOptions{
+		Limit: pointers.Int64Pointer(limit),
+		Skip:  pointers.Int64Pointer(skipCount),
+	}
+
+	cursor, err := storage.collection.Find(
+		ctx,
+		bson.M{
+			chatFieldProfitabilitySettingsType: settingsType,
+		},
+		&options,
+	)
+	if err != nil {
+		return nil, errors2.Wrap(err, "storage.collection.Find")
+	}
+
+	chatRows := make([]chatRow, 0, limit)
+	err = cursor.All(ctx, &chatRows)
+	if err != nil {
+		return nil, errors2.Wrap(err, "cursor.All")
+	}
+
+	resultChats := make([]model.Chat, 0, len(chatRows))
+	for _, row := range chatRows {
+		resultChats = append(resultChats, model.Chat{
+			ChatID:            model.ChatID(row.ChatID),
+			ProfitabilityType: parseProfitability(row.ProfitabilitySettingsType),
+		})
+	}
+
+	return resultChats, nil
+}
+
+func (storage *Storage) CountChatsWithProfitability(
+	ctx context.Context,
+	profitability model.ProfitabilitySettingsType,
+) (int64, error) {
+	resultCount, err := storage.collection.CountDocuments(
+		ctx,
+		bson.M{
+			chatFieldProfitabilitySettingsType: convertProfitability(profitability),
+		},
+	)
+
+	if err != nil {
+		return 0, errors2.Wrap(err, "storage.CountDocuments")
+	}
+
+	return resultCount, nil
 }
 
 func (storage *Storage) UpdateChatProfitability(
