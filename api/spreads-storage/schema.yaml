@@ -1,0 +1,7 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Spreads-Storage
+  description: Full API definition for Spreads-Storage service.
+
+paths:

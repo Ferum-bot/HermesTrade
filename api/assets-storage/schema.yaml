@@ -1,0 +1,138 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Assets-Storage
+  description: Full API definition for Assets-Storage service.
+
+paths:
+  /assets-storage/api/v1/add-assets:
+    put:
+      tags: [ Assets ]
+      summary: Add assets currency pairs to assets storage
+      parameters:
+        - in: header
+          name: X-HermesTrade-Asset-Source-Identifier
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [asset_pairs]
+              properties:
+                asset_pairs:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/RequestAssetCurrencyPair"
+      responses:
+        201:
+          description: Success result
+
+  /assets-storage/api/v1/get-assets:
+    post:
+      tags: [ Assets ]
+      summary: Get assets currency pairs from storage
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                time_filter:
+                  $ref: "#/components/schemas/TimeFilter"
+                source_filter:
+                  $ref: "#/components/schemas/AssetSourceFilter"
+                type_filter:
+                  $ref: "#/components/schemas/AssetTypeFilter"
+      responses:
+        200:
+          description: Success result
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AssetCurrencyPair"
+
+components:
+  schemas:
+    RequestAssetCurrencyPair:
+      type: object
+      required: [base_asset, quoted_asset, currency_ratio]
+      properties:
+        base_asset:
+          $ref: "#/components/schemas/Asset"
+        quoted_asset:
+          $ref: "#/components/schemas/Asset"
+        currency_ratio:
+          $ref: "#/components/schemas/CurrencyRatio"
+    AssetCurrencyPair:
+      type: object
+      required: [ base_asset, quoted_asset, currency_ratio ]
+      properties:
+        identifier:
+          type: string
+          format: uuid
+        base_asset:
+          $ref: "#/components/schemas/Asset"
+        quoted_asset:
+          $ref: "#/components/schemas/Asset"
+        currency_ratio:
+          $ref: "#/components/schemas/CurrencyRatio"
+    Asset:
+      type: object
+      required: [external_identifier, universal_identifier]
+      properties:
+        external_identifier:
+          type: integer
+          format: int64
+        universal_identifier:
+          type: integer
+          format: int64
+    CurrencyRatio:
+      type: object
+      required: [value, precision]
+      properties:
+        value:
+          type: integer
+          format: int64
+        precision:
+          type: integer
+          format: int64
+
+    AssetSourceFilter:
+      type: object
+      required: [source_identifiers]
+      properties:
+        source_identifiers:
+          type: array
+          items:
+            type: integer
+            format: int64
+    AssetTypeFilter:
+      type: object
+      required: [universal_identifiers]
+      properties:
+        universal_identifiers:
+          type: array
+          items:
+            type: integer
+            format: int64
+    TimeFilter:
+      type: object
+      properties:
+        added_after:
+          type: string
+          format: date-time
+          example: "2018-03-20T09:12:28Z"
