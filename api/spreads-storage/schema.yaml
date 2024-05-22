@@ -5,3 +5,179 @@ info:
   description: Full API definition for Spreads-Storage service.
 
 paths:
+  /spreads-storage/api/v1/get-spreads:
+    post:
+      tags: [Retrieve Spreads]
+      summary: Get spreads by identifiers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifiers]
+              properties:
+                identifiers:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        200:
+          description: All found spreads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Spread"
+
+
+  /spreads-storage/api/v1/search-spreads:
+    post:
+      tags: [Retrive Spreads]
+      summary: Search spreads by parameters
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                profitability_filter:
+                  $ref: "#/components/schemas/SpreadProfitabilityFilter"
+                length_filter:
+                  $ref: "#/components/schemas/SpreadLengthFilter"
+                found_date_filter:
+                  $ref: "#/components/schemas/SpreadFoundDateFilter"
+      responses:
+        200:
+          description: All found spreads
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Spread"
+
+  /spreads-storage/api/v1/save-spreads:
+    put:
+      tags: [ Save Spreads ]
+      summary: Save found spreads to storage
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [spreads]
+              properties:
+                spreads:
+                  type: array
+                  items:
+                    $ref:  "#/components/schemas/Spread"
+      responses:
+        201:
+          description: Success save
+components:
+  schemas:
+    Spread:
+      type: object
+      required: [identifier, elements, meta_information]
+      properties:
+        identifier:
+          type: string
+          format: uuid
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssetCurrencyPair"
+        meta_information:
+          type: object
+          required: [spread_length, found_at, profitability_percent]
+          properties:
+            spread_length:
+              type: integer
+              format: int64
+            found_at:
+              type: string
+              format: date-time
+              example: "2018-03-20T09:12:28Z"
+            profitability_percent:
+              $ref: "#/components/schemas/SpreadProfitabilityPercent"
+    SpreadProfitabilityPercent:
+      type: object
+      required: [ value, precision ]
+      properties:
+        value:
+          type: integer
+          format: int64
+        precision:
+          type: integer
+          format: int64
+    AssetCurrencyPair:
+      type: object
+      required: [ base_asset, quoted_asset, currency_ratio ]
+      properties:
+        identifier:
+          type: string
+          format: uuid
+        base_asset:
+          $ref: "#/components/schemas/Asset"
+        quoted_asset:
+          $ref: "#/components/schemas/Asset"
+        currency_ratio:
+          $ref: "#/components/schemas/CurrencyRatio"
+    Asset:
+      type: object
+      required: [ external_identifier, universal_identifier ]
+      properties:
+        external_identifier:
+          type: integer
+          format: int64
+        universal_identifier:
+          type: integer
+          format: int64
+    CurrencyRatio:
+      type: object
+      required: [ value, precision ]
+      properties:
+        value:
+          type: integer
+          format: int64
+        precision:
+          type: integer
+          format: int64
+
+    SpreadProfitabilityFilter:
+      type: object
+      properties:
+        min_profitability_percent:
+          $ref: "#/components/schemas/SpreadProfitabilityPercent"
+        max_profitability_percent:
+          $ref: "#/components/schemas/SpreadProfitabilityPercent"
+    SpreadLengthFilter:
+      type: object
+      properties:
+        min_spread_length:
+          type: integer
+          format: int64
+        max_spread_length:
+          type: integer
+          format: int64
+    SpreadFoundDateFilter:
+      type: object
+      properties:
+        min_found_date:
+          type: string
+          format: date-time
+          example: "2018-03-20T09:12:28Z"
+        max_found_date:
+          type: string
+          format: date-time
+          example: "2018-03-20T09:12:28Z"
