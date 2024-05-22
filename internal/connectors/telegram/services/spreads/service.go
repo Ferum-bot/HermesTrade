@@ -90,10 +90,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "EUR/USD",
@@ -107,10 +104,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "USD/RUB",
@@ -124,10 +118,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "RUB/USD",
@@ -141,10 +132,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "USD/AUD",
@@ -158,10 +146,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "EUR/AUD",
@@ -175,10 +160,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "GBP/AUD",
@@ -192,10 +174,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    1243,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "USD/TRY",
@@ -209,10 +188,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    13,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "TRY/USD",
@@ -226,10 +202,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    213,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "TRY/USD",
@@ -243,10 +216,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    32,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "USD/HUF",
@@ -260,10 +230,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    77,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "HUF/AUD",
@@ -277,10 +244,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "GBP/HUF",
@@ -294,10 +258,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "HUF/USD",
@@ -311,10 +272,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "HUF/TRY",
@@ -328,10 +286,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 		{
 			Identifier: "TRY/HUF",
@@ -345,10 +300,7 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 				ExternalIdentifier:  0,
 				SourceIdentifier:    123,
 			},
-			CurrencyRatio: model2.AssetsCurrencyRatio{
-				Precision: 0,
-				Value:     0,
-			},
+			CurrencyRatio: generateCurrencyRation(),
 		},
 	}
 
@@ -386,13 +338,13 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 	switch profitability {
 	case model.ProfitabilityAll:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
-			Precision: 2,
-			Value:     rand.Int63()%30 + 50,
+			Precision: 3,
+			Value:     rand.Int63()%30 + 5,
 		}
 	case model.ProfitabilityPercent1:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
-			Precision: 1,
-			Value:     rand.Int63()%20 + 10,
+			Precision: 2,
+			Value:     rand.Int63()%80 + 1,
 		}
 	case model.ProfitabilityPercent5:
 		spread.MetaInformation.ProfitabilityPercent = model2.SpreadProfitabilityPercent{
@@ -407,4 +359,13 @@ func generateSpread(profitability model.ProfitabilitySettingsType) model2.Spread
 	}
 
 	return spread
+}
+
+func generateCurrencyRation() model2.AssetsCurrencyRatio {
+	precision := rand.Int63() % 3
+	value := rand.Int63()%100000 + precision
+	return model2.AssetsCurrencyRatio{
+		Precision: precision,
+		Value:     value,
+	}
 }

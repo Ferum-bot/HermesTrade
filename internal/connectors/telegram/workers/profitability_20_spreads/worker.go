@@ -3,6 +3,7 @@ package profitability_20_spreads
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/model"
+	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/workers"
 	"github.com/Ferum-Bot/HermesTrade/internal/platform/logger"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
 	model2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter/model"
@@ -43,11 +44,11 @@ func (worker *Worker) Start(ctx context.Context) error {
 			if err != nil {
 				worker.logger.Errorf("Received error in profitability_20_spreads worker: %s", err)
 
-				time.Sleep(10 * time.Second)
+				time.Sleep(30 * time.Second)
 				continue
 			}
 
-			time.Sleep(1 * time.Second)
+			time.Sleep(workers.WorkerDelaySeconds * time.Second)
 		}
 	}
 }

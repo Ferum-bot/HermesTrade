@@ -41,7 +41,7 @@ func getSpreadProfitability(spread model.Spread) string {
 	profitabilityString := strings.Builder{}
 	profitability := spread.MetaInformation.ProfitabilityPercent
 
-	profitabilityValueString := strconv.FormatInt(profitability.Value, 64)
+	profitabilityValueString := strconv.FormatInt(profitability.Value, 10)
 
 	if profitability.Precision >= int64(len(profitabilityValueString)) {
 		profitabilityString.WriteString("0,")
@@ -52,7 +52,7 @@ func getSpreadProfitability(spread model.Spread) string {
 		}
 		profitabilityString.WriteString(profitabilityValueString)
 	} else {
-		iterations := -int64(len(profitabilityValueString)) - profitability.Precision
+		iterations := int64(len(profitabilityValueString)) - profitability.Precision
 		for i := 0; i < int(iterations); i++ {
 			profitabilityString.WriteString(string([]rune(profitabilityValueString)[i]))
 		}
@@ -75,7 +75,7 @@ func getSpreadsAssetsPair(spread model.Spread) string {
 	assetsString := strings.Builder{}
 	length := spread.MetaInformation.Length
 
-	currentElement := spread.Head
+	currentElement := &spread.Head
 	for i := 0; i < int(length); i++ {
 		assetPair := currentElement.AssetPair
 		template := "Source(%d): AssetPair(%s): CurrencyRation(%s)"
@@ -87,6 +87,7 @@ func getSpreadsAssetsPair(spread model.Spread) string {
 			getCurrencyRation(assetPair.CurrencyRatio),
 		))
 
+		currentElement = currentElement.NextElement
 	}
 
 	return assetsString.String()
@@ -95,7 +96,7 @@ func getSpreadsAssetsPair(spread model.Spread) string {
 func getCurrencyRation(ratio model.AssetsCurrencyRatio) string {
 	ratioString := strings.Builder{}
 
-	ratioValueString := strconv.FormatInt(ratio.Value, 64)
+	ratioValueString := strconv.FormatInt(ratio.Value, 10)
 
 	if ratio.Precision >= int64(len(ratioValueString)) {
 		ratioString.WriteString("0,")
@@ -106,7 +107,7 @@ func getCurrencyRation(ratio model.AssetsCurrencyRatio) string {
 		}
 		ratioString.WriteString(ratioValueString)
 	} else {
-		iterations := -int64(len(ratioValueString)) - ratio.Precision
+		iterations := int64(len(ratioValueString)) - ratio.Precision
 		for i := 0; i < int(iterations); i++ {
 			ratioString.WriteString(string([]rune(ratioValueString)[i]))
 		}

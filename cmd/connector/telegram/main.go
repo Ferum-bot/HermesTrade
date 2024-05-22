@@ -175,6 +175,8 @@ func main() {
 		}
 	}()
 
+	logger.Infof("Telegram Connector is started")
+
 	<-done
 
 	logger.Infof("Telegram Connector is stopping")

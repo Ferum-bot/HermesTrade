@@ -3,6 +3,7 @@ package profitability_1_spreads
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/model"
+	"github.com/Ferum-Bot/HermesTrade/internal/connectors/telegram/workers"
 	"github.com/Ferum-Bot/HermesTrade/internal/platform/logger"
 	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
 	model2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter/model"
@@ -47,7 +48,7 @@ func (worker *Worker) Start(ctx context.Context) error {
 				continue
 			}
 
-			time.Sleep(1 * time.Second)
+			time.Sleep(workers.WorkerDelaySeconds * time.Second)
 		}
 	}
 }

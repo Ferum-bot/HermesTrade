@@ -71,7 +71,7 @@ func (storage *Storage) GetChatsWithProfitability(
 	cursor, err := storage.collection.Find(
 		ctx,
 		bson.M{
-			chatFieldProfitabilitySettingsType: settingsType,
+			chatFieldProfitabilitySettingsType: convertProfitability(settingsType),
 		},
 		&options,
 	)

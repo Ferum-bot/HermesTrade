@@ -47,7 +47,7 @@ func (worker *Worker) Start(ctx context.Context) error {
 				continue
 			}
 
-			time.Sleep(1 * time.Second)
+			time.Sleep(11 * time.Second)
 		}
 	}
 }
