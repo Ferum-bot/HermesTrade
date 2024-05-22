@@ -11,11 +11,9 @@ type TelegramClient struct {
 	bot *bot.Bot
 }
 
-func NewTelegramClient(
-	bot *bot.Bot,
-) *TelegramClient {
+func NewTelegramClient() *TelegramClient {
 	return &TelegramClient{
-		bot: bot,
+		bot: nil,
 	}
 }
 
@@ -34,4 +32,8 @@ func (client *TelegramClient) SendMessage(
 	}
 
 	return nil
+}
+
+func (client *TelegramClient) SetTelegramBot(bot *bot.Bot) {
+	client.bot = bot
 }

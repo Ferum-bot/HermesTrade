@@ -19,14 +19,14 @@ func NewCommand(
 	}
 }
 
-func (c command) CommandReceived(
+func (command *command) CommandReceived(
 	ctx context.Context,
 	chatID model.ChatID,
 	authorID model.UserID,
 ) error {
-	err := c.telegramBot.SendMessage(ctx, chatID, unKnownCommandMessage)
+	err := command.telegramBot.SendMessage(ctx, chatID, unKnownCommandMessage)
 	if err != nil {
-		return errors.Wrap(err, "c.telegramBot.SendMessage")
+		return errors.Wrap(err, "command.telegramBot.SendMessage")
 	}
 
 	return nil
