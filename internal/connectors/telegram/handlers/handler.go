@@ -7,6 +7,7 @@ import (
 	"github.com/Ferum-Bot/HermesTrade/internal/platform/logger"
 	"github.com/go-telegram/bot"
 	"github.com/go-telegram/bot/models"
+	"strings"
 )
 
 type DefaultHandler struct {
@@ -32,10 +33,13 @@ func (handler *DefaultHandler) Handle(
 	bot *bot.Bot,
 	update *models.Update,
 ) {
+	if update.Message == nil {
+		return
+	}
 	incomeCommand := update.Message.Text
 
 	for _, command := range handler.availableCommands {
-		if command.Name() == incomeCommand {
+		if strings.Contains(incomeCommand, command.Name()) {
 			chatID := model.ChatID(update.Message.Chat.ID)
 			authorID := model.UserID(update.Message.From.ID)
 
