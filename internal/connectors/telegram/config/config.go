@@ -22,7 +22,7 @@ func (c *config) GetToken() (string, error) {
 }
 
 func (c *config) GetMongoUrl() (string, error) {
-	mongoUrl, exists := os.LookupEnv("MONGODB_URL")
+	mongoUrl, exists := os.LookupEnv("TELEGRAM_CONNECTOR_MONGODB_URL")
 	if !exists {
 		return "", errors.New("environment variable \"MONGODB_URL\" not provided")
 	}
@@ -31,7 +31,7 @@ func (c *config) GetMongoUrl() (string, error) {
 }
 
 func (c *config) GetMongoDatabase() (string, error) {
-	database, exists := os.LookupEnv("MONGODB_DATABASE")
+	database, exists := os.LookupEnv("TELEGRAM_CONNECTOR_MONGODB_DATABASE")
 	if !exists {
 		return "", errors.New("environment variable \"MONGODB_DATABASE\" not provided")
 	}
