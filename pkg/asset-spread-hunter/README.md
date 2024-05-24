@@ -1,1 +1,1 @@
-# Asset spread hunter Algorithm
+# Asset Spread Hunter Algorithm

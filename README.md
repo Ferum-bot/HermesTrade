@@ -12,11 +12,31 @@ and look for a sequence of transactions with which you can extract due to the di
 
 ### Unique search algorithm
 
+This algorithm is located in a separate external package [pkg/asset-spread-hunter](./pkg/asset-spread-hunter).
+It basically contains two algorithms with a lot of heuristics and meta-heuristics.
+
+Full information and detailed description of the algorithm, including stress testing and load measurements are located in
+package [README.md](pkg/asset-spread-hunter/README.md)
+
 ### High throughput
+
+
 
 ### Support for 6 exchanges
 
+Now totally supports six different finance exchanges:
+* [Binance](https://www.binance.com/en)
+* [ByBit](https://www.bybit.com/en/)
+* [Coinbase](https://www.coinbase.com/)
+* [Kraken](https://www.kraken.com/)
+* [OKX](https://www.okx.com/en)
+* [Upbit](https://upbit.com/home)
+
 ### Convenient and concise visualizer
+
+Now project supports simple Telegram Bot for visualizing the found spreads. 
+You can search our bot in Telegram by bot name: `@HermesTradeOpenBot  `
+Or just click [here](https://t.me/HermesTradeOpenBot). The bot will tell you how to use it.
 
 ## Project Architecture:
 
