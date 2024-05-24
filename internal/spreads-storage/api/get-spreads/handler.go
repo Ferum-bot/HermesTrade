@@ -1,4 +1,4 @@
-package save_spreads
+package get_spreads
 
 import "net/http"
 
@@ -9,7 +9,7 @@ func New() *Handler {
 	return &Handler{}
 }
 
-func (handler *Handler) SaveSpreads(
+func (handler *Handler) GetSpreads(
 	response http.ResponseWriter,
 	request *http.Request,
 ) {
