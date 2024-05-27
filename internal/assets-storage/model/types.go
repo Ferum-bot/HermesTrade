@@ -1,0 +1,7 @@
+package model
+
+type AssetCurrencyPairIdentifier string
+
+type AssetSourceIdentifier int64
+type AssetExternalIdentifier int64
+type AssetUniversalIdentifier int64

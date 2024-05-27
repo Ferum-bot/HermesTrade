@@ -28,10 +28,10 @@ type Asset struct {
 
 // AssetCurrencyPair defines model for AssetCurrencyPair.
 type AssetCurrencyPair struct {
-	BaseAsset     Asset               `json:"base_asset"`
-	CurrencyRatio CurrencyRatio       `json:"currency_ratio"`
-	Identifier    *openapi_types.UUID `json:"identifier,omitempty"`
-	QuotedAsset   Asset               `json:"quoted_asset"`
+	BaseAsset     Asset              `json:"base_asset"`
+	CurrencyRatio CurrencyRatio      `json:"currency_ratio"`
+	Identifier    openapi_types.UUID `json:"identifier"`
+	QuotedAsset   Asset              `json:"quoted_asset"`
 }
 
 // AssetSourceFilter defines model for AssetSourceFilter.
@@ -59,7 +59,8 @@ type RequestAssetCurrencyPair struct {
 
 // TimeFilter defines model for TimeFilter.
 type TimeFilter struct {
-	AddedAfter *time.Time `json:"added_after,omitempty"`
+	EndDate   *time.Time `json:"end_date,omitempty"`
+	StartDate *time.Time `json:"start_date,omitempty"`
 }
 
 // PutAssetsStorageApiV1AddAssetsJSONBody defines parameters for PutAssetsStorageApiV1AddAssets.
@@ -81,8 +82,8 @@ type PostAssetsStorageApiV1GetAssetsJSONBody struct {
 
 // PostAssetsStorageApiV1GetAssetsParams defines parameters for PostAssetsStorageApiV1GetAssets.
 type PostAssetsStorageApiV1GetAssetsParams struct {
-	Offset *int `form:"offset,omitempty" json:"offset,omitempty"`
-	Limit  *int `form:"limit,omitempty" json:"limit,omitempty"`
+	Offset int64 `form:"offset" json:"offset"`
+	Limit  int64 `form:"limit" json:"limit"`
 }
 
 // PutAssetsStorageApiV1AddAssetsJSONRequestBody defines body for PutAssetsStorageApiV1AddAssets for application/json ContentType.
@@ -180,17 +181,31 @@ func (siw *ServerInterfaceWrapper) PostAssetsStorageApiV1GetAssets(w http.Respon
 	// Parameter object where we will unmarshal all parameters from the context
 	var params PostAssetsStorageApiV1GetAssetsParams
 
-	// ------------- Optional query parameter "offset" -------------
+	// ------------- Required query parameter "offset" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "offset", r.URL.Query(), &params.Offset)
+	if paramValue := r.URL.Query().Get("offset"); paramValue != "" {
+
+	} else {
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "offset"})
+		return
+	}
+
+	err = runtime.BindQueryParameter("form", true, true, "offset", r.URL.Query(), &params.Offset)
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
 		return
 	}
 
-	// ------------- Optional query parameter "limit" -------------
+	// ------------- Required query parameter "limit" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "limit", r.URL.Query(), &params.Limit)
+	if paramValue := r.URL.Query().Get("limit"); paramValue != "" {
+
+	} else {
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "limit"})
+		return
+	}
+
+	err = runtime.BindQueryParameter("form", true, true, "limit", r.URL.Query(), &params.Limit)
 	if err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
 		return
@@ -333,19 +348,19 @@ func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handl
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

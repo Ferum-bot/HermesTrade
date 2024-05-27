@@ -37,12 +37,16 @@ paths:
       parameters:
         - in: query
           name: offset
+          required: true
           schema:
             type: integer
+            format: int64
         - in: query
           name: limit
+          required: true
           schema:
             type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -79,7 +83,7 @@ components:
           $ref: "#/components/schemas/CurrencyRatio"
     AssetCurrencyPair:
       type: object
-      required: [ base_asset, quoted_asset, currency_ratio ]
+      required: [ identifier, base_asset, quoted_asset, currency_ratio ]
       properties:
         identifier:
           type: string
@@ -132,7 +136,11 @@ components:
     TimeFilter:
       type: object
       properties:
-        added_after:
+        start_date:
+          type: string
+          format: date-time
+          example: "2018-03-20T09:12:28Z"
+        end_date:
           type: string
           format: date-time
           example: "2018-03-20T09:12:28Z"
