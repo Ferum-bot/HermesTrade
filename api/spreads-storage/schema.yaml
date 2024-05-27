@@ -28,7 +28,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Spread"
+                  $ref: "#/components/schemas/SpreadFull"
 
 
   /spreads-storage/api/v1/search-spreads:
@@ -110,6 +110,30 @@ components:
               example: "2018-03-20T09:12:28Z"
             profitability_percent:
               $ref: "#/components/schemas/SpreadProfitabilityPercent"
+    SpreadFull:
+      type: object
+      required: [identifier, elements, meta_information]
+      properties:
+        identifier:
+          type: string
+          format: uuid
+        elements:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssetCurrencyPairWithLinks"
+        meta_information:
+          type: object
+          required: [ spread_length, found_at, profitability_percent ]
+          properties:
+            spread_length:
+              type: integer
+              format: int64
+            found_at:
+              type: string
+              format: date-time
+              example: "2018-03-20T09:12:28Z"
+            profitability_percent:
+              $ref: "#/components/schemas/SpreadProfitabilityPercent"
     SpreadProfitabilityPercent:
       type: object
       required: [ value, precision ]
@@ -120,6 +144,23 @@ components:
         precision:
           type: integer
           format: int64
+    AssetCurrencyPairWithLinks:
+      type: object
+      required: [identifier, source_link, pair_link, base_asset, quoted_asset, currency_ratio]
+      properties:
+        identifier:
+          type: string
+          format: uuid
+        source_link:
+          type: string
+        pair_link:
+          type: string
+        base_asset:
+          $ref: "#/components/schemas/Asset"
+        quoted_asset:
+          $ref: "#/components/schemas/Asset"
+        currency_ratio:
+          $ref: "#/components/schemas/CurrencyRatio"
     AssetCurrencyPair:
       type: object
       required: [ base_asset, quoted_asset, currency_ratio ]
