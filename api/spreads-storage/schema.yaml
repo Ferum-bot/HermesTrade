@@ -38,12 +38,16 @@ paths:
       parameters:
         - in: query
           name: offset
+          required: true
           schema:
             type: integer
+            format: int64
         - in: query
           name: limit
+          required: true
           schema:
             type: integer
+            format: int64
       requestBody:
         content:
           application/json:
@@ -214,11 +218,11 @@ components:
     SpreadFoundDateFilter:
       type: object
       properties:
-        min_found_date:
+        start_found_date:
           type: string
           format: date-time
           example: "2018-03-20T09:12:28Z"
-        max_found_date:
+        end_found_date:
           type: string
           format: date-time
           example: "2018-03-20T09:12:28Z"

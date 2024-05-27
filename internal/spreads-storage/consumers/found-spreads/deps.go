@@ -1,11 +1,11 @@
-package save_spreads
+package found_spreads
 
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/spreads-storage/model"
 )
 
-type spreadService interface {
+type spreadsService interface {
 	SaveSpreads(
 		ctx context.Context,
 		spreads []model.Spread,
