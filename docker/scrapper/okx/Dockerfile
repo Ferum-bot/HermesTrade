@@ -11,7 +11,7 @@ ADD go.sum .
 
 RUN go mod download
 COPY ../.. .
-RUN go build -o /app/connector/telegram cmd/connector/telegram/main.go
+RUN go build -o /app/scrapper cmd/scrapper/okx/main.go
 
 FROM alpine
 
@@ -19,6 +19,6 @@ RUN apk update --no-cache && apk add --no-cache ca-certificates
 COPY --from=builder /usr/share/zoneinfo/Europe/Moscow /usr/share/zoneinfo/Europe/Moscow
 ENV TZ Europe/Moscow
 
-COPY --from=builder /app/connector/telegram /app/connector/telegram
+COPY --from=builder /app/scrapper /app/scrapper
 
-CMD ["./app/connector/telegram"]
+CMD ["./app/scrapper"]
