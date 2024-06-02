@@ -1,0 +1,6 @@
+package assets_storage
+
+type AssetSourceIdentifier int64
+type AssetUniversalIdentifier int64
+
+type AssetCurrencyPairIdentifier string
