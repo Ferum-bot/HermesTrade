@@ -3,6 +3,8 @@ package parser
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/scrappers/kraken/model"
+	"github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/platform/errors"
+	"github.com/google/uuid"
 )
 
 type Parser struct {
@@ -20,6 +22,23 @@ func New(
 func (parser *Parser) ParseNewAssetsPairs(
 	ctx context.Context,
 ) ([]model.AssetCurrencyPair, error) {
-	//TODO implement me
-	panic("implement me")
+	const maxAssetsCount = 100
+	const assetsPerRequestCount = 10
+	const requestsCount = maxAssetsCount/assetsPerRequestCount + 1
+
+	result := make([]model.AssetCurrencyPair, 0, maxAssetsCount)
+
+	currentOffset := int64(0)
+	for i := 0; i < requestsCount; i++ {
+		_, err := parser.exchangeClient.GetAssetPairs(ctx, "filter", currentOffset, assetsPerRequestCount)
+		if err != nil {
+			return nil, errors.Wrap(err, "parser.exchangeClient.GetAssetPairs")
+		}
+
+		result = append(result, model.AssetCurrencyPair{
+			Identifier: model.AssetCurrencyPairIdentifier(uuid.New().String()),
+		})
+	}
+
+	return result, nil
 }

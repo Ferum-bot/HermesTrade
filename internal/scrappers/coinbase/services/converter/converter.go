@@ -15,6 +15,27 @@ func New() *Converter {
 func (converter *Converter) Convert(
 	assets []model2.AssetCurrencyPair,
 ) ([]model.AssetCurrencyPair, error) {
-	//TODO implement me
-	panic("implement me")
+	result := make([]model.AssetCurrencyPair, 0, len(assets))
+
+	for _, asset := range assets {
+		result = append(result, model.AssetCurrencyPair{
+			Identifier: model.AssetCurrencyPairIdentifier(asset.Identifier),
+			BaseAsset: model.Asset{
+				SourceIdentifier:    model.AssetSourceIdentifier(asset.BaseAsset.SourceIdentifier),
+				UniversalIdentifier: model.AssetUniversalIdentifier(asset.BaseAsset.UniversalIdentifier),
+				ExternalIdentifier:  model.AssetExternalIdentifier(asset.BaseAsset.ExternalIdentifier),
+			},
+			QuotedAsset: model.Asset{
+				SourceIdentifier:    model.AssetSourceIdentifier(asset.QuotedAsset.SourceIdentifier),
+				UniversalIdentifier: model.AssetUniversalIdentifier(asset.QuotedAsset.UniversalIdentifier),
+				ExternalIdentifier:  model.AssetExternalIdentifier(asset.QuotedAsset.ExternalIdentifier),
+			},
+			CurrencyRatio: model.AssetCurrencyRatio{
+				Value:     asset.CurrencyRatio.Value,
+				Precision: asset.CurrencyRatio.Precision,
+			},
+		})
+	}
+
+	return result, nil
 }
