@@ -20,6 +20,9 @@ package [README.md](pkg/asset-spread-hunter/README.md)
 
 ### High throughput
 
+The average throughput of the project is about 150 thousand financial quotes per minute.
+
+Thanks to the speed of work, it turns out to analyze a huge part of the data and find really profitable spreads.
 
 
 ### Support for 6 exchanges
@@ -55,6 +58,33 @@ The architecture is more clearly demonstrated in the diagram below:
 <img src='./images/HermesTrade_Architecture.png' width='724' height='524'>
 
 ## How to launch?
+
+To run the project locally, you will need to install several programs:
+
+* Docker and Docker-compose
+* Golang
+* MiniKube
+
+After installation, you need to use the commands from the Makefile:
+
+First of all, launch databases and message queues:
+
+`make launch-dev-env`
+
+After that, launch main services:
+
+1. `make launch-assets-storage`
+2. `make launch-spreads-storage`
+3. `make launch-asset-spread-hunter`
+
+Then launch scrappers:
+
+`make launch-all-scrappers`
+
+And in the end launch telegram connector:
+
+`make launch-connector-telegram`
+
 
 ## How to contribute?
 
