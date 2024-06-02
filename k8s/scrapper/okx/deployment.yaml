@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: assets-storage
+  name: scrapper-okx
   labels:
-    app: assets-storage
+    app: scrapper-okx
     repository: HermesTrade
     owner: Ferum-bot
     tier: backend
@@ -17,13 +17,13 @@ spec:
       maxUnavailable: 1
   selector:
     matchLabels:
-      app: assets-storage
+      app: scrapper-okx
       tier: backend
       repository: HermesTrade
   template:
     metadata:
       labels:
-        app: assets-storage
+        app: scrapper-okx
         tier: backend
         owner: Ferum-bot
         repository: HermesTrade
@@ -33,7 +33,7 @@ spec:
         server-size: default
       containers:
         - name: server-container
-          image: cr.yandex/crpqcg70aaep5tihmd33/hermes-trade-assets-storage:latest
+          image: cr.yandex/crpqcg70aaep5tihmd33/hermes-trade-scrapper-okx:latest
           livenessProbe:
             httpGet:
               port: 8181

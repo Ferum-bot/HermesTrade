@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scrapper-binance
+  labels:
+    app: scrapper-binance
+    repository: HermesTrade
+    owner: Ferum-bot
+    tier: backend
+    infrastructure: golang
+  namespace: default
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: scrapper-binance
+      tier: backend
+      repository: HermesTrade
+  template:
+    metadata:
+      labels:
+        app: scrapper-binance
+        tier: backend
+        owner: Ferum-bot
+        repository: HermesTrade
+        infrastructure: golang
+    spec:
+      nodeSelector:
+        server-size: default
+      containers:
+        - name: server-container
+          image: cr.yandex/crpqcg70aaep5tihmd33/hermes-trade-scrapper-binance:latest
+          livenessProbe:
+            httpGet:
+              port: 8181
+              path: /metrics
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 8181
+              path: /metrics
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              port: 8181
+              path: /metrics
+            failureThreshold: 30
+            periodSeconds: 10
+          ports:
+            - containerPort: 8181
+              hostPort: 8181
