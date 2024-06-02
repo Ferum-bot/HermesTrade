@@ -6,10 +6,15 @@ import (
 )
 
 type Parser struct {
+	exchangeClient exchangeClient
 }
 
-func New() *Parser {
-	return &Parser{}
+func New(
+	exchangeClient exchangeClient,
+) *Parser {
+	return &Parser{
+		exchangeClient: exchangeClient,
+	}
 }
 
 func (parser *Parser) ParseNewAssetsPairs(
