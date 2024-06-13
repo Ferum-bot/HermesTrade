@@ -151,9 +151,9 @@ func configureRouter(
 
 	mongoDatabase := mongoClient.Database(databaseName)
 
-	spreadsStorage := spreads.NewStorage(mongoDatabase)
-
 	spreadLinkBuilder := spread_link_builder.NewService()
+
+	spreadsStorage := spreads.NewStorage(mongoDatabase, spreadLinkBuilder)
 	spreadService := spreads2.NewService(spreadsStorage, spreadLinkBuilder)
 
 	getSpreadsHandler := get_spreads.New(logger, spreadService)

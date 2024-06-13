@@ -9,8 +9,8 @@ type SpreadsFilter struct {
 }
 
 type SpreadsProfitabilityFilter struct {
-	MinProfitability ProfitabilityPercent
-	MaxProfitability ProfitabilityPercent
+	MinProfitability SpreadProfitabilityPercent
+	MaxProfitability SpreadProfitabilityPercent
 }
 
 type SpreadsLengthFilter struct {

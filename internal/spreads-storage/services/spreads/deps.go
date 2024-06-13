@@ -3,6 +3,7 @@ package spreads
 import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/spreads-storage/model"
+	model2 "github.com/Ferum-Bot/HermesTrade/pkg/asset-spread-hunter/spread-hunter/model"
 )
 
 type spreadsStorage interface {
@@ -24,5 +25,11 @@ type spreadsStorage interface {
 }
 
 type spreadLinkBuilder interface {
-	ProvideLinks(spread model.Spread) model.SpreadWithLink
+	ProvideLinks(
+		spread model.Spread,
+	) model.SpreadWithLink
+
+	ProvideLinksForAssetPair(
+		assetPair model2.AssetCurrencyPair,
+	) model.AssetPairWithLinks
 }

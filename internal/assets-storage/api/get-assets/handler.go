@@ -85,6 +85,18 @@ func (handler *Handler) convertAssetsToResponse(assets []model.AssetCurrencyPair
 	for _, asset := range assets {
 		result = append(result, dto.AssetCurrencyPair{
 			Identifier: uuid.MustParse(string(asset.Identifier)),
+			CurrencyRatio: dto.CurrencyRatio{
+				Precision: asset.CurrencyRatio.Precision,
+				Value:     asset.CurrencyRatio.Value,
+			},
+			BaseAsset: dto.Asset{
+				ExternalIdentifier:  int64(asset.BaseAsset.ExternalIdentifier),
+				UniversalIdentifier: int64(asset.BaseAsset.UniversalIdentifier),
+			},
+			QuotedAsset: dto.Asset{
+				ExternalIdentifier:  int64(asset.QuotedAsset.ExternalIdentifier),
+				UniversalIdentifier: int64(asset.QuotedAsset.UniversalIdentifier),
+			},
 		})
 	}
 

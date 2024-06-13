@@ -4,12 +4,14 @@ import (
 	"context"
 	"github.com/Ferum-Bot/HermesTrade/internal/assets-storage/model"
 	"go.mongodb.org/mongo-driver/mongo"
+	"math"
 )
 
 const collectionName = "assetsCurrencyPairs"
 
 type Storage struct {
-	collection *mongo.Collection
+	collection  *mongo.Collection
+	savedAssets []model.AssetCurrencyPair
 }
 
 func NewAssetsStorage(
@@ -24,8 +26,8 @@ func (storage *Storage) SaveAssetsPairs(
 	ctx context.Context,
 	assetsPairs []model.AssetCurrencyPair,
 ) ([]model.AssetCurrencyPair, error) {
-	//TODO implement me
-	panic("implement me")
+	storage.savedAssets = append(storage.savedAssets, assetsPairs...)
+	return assetsPairs, nil
 }
 
 func (storage *Storage) SearchAssetsPairs(
@@ -33,6 +35,6 @@ func (storage *Storage) SearchAssetsPairs(
 	filters model.AssetFilters,
 	offset, limit int64,
 ) ([]model.AssetCurrencyPair, error) {
-	//TODO implement me
-	panic("implement me")
+	right := math.Min(float64(offset+limit+1), float64(len(storage.savedAssets)))
+	return storage.savedAssets[offset:int(right)], nil
 }
